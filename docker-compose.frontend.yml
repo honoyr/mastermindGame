@@ -1,0 +1,10 @@
+version: '3.9' # optional since v1.27.0
+services:
+  docker-frontend:
+    build:
+      context: mastermindGameFrontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - '4200:4200'
+    volumes:
+      - ./mastermindGameFrontend/src:/frontend/src
