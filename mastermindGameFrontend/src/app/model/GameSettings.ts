@@ -11,8 +11,8 @@ export enum Settings {
   MEDIUM_MAX = 7,
   HARD_MAX = 9,
 
-  EASY_TIME = Number.MAX_SAFE_INTEGER,
-  MEDIUM_TIME = 600000,
+  EASY_TIME = 600000,
+  MEDIUM_TIME = 300000,
   HARD_TIME = 20000,
 }
 
@@ -33,6 +33,7 @@ export class GameSettings {
 
   setSettings(level: Levels){
     this.smallestValueReturned = Settings.MIN;
+    this.level = level;
 
     switch ( level ) {
       case Levels.easy:

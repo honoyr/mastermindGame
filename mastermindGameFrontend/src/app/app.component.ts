@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, } from '@angular/core';
+import {CommonModule} from "@angular/common";
+import {StopWatchService} from "./service/stop-watch.service";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  currentDate: Date = new Date();
+
+  constructor(public timer: StopWatchService) {
+  }
   title = 'mastermindGameFrontend';
 }

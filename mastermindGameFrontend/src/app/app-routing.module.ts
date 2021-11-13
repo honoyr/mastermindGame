@@ -4,7 +4,7 @@ import {GameViewComponent} from "./components/game-view/game-view.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'game',
     component: GameViewComponent,
   },
 ];
