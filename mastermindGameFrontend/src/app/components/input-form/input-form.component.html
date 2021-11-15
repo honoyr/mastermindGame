@@ -4,9 +4,17 @@
   <form class="card" [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-control">
       <label>Your guess</label>
-      <input type="text" placeholder="1234" [formControlName]="guess">
-      <div class="validation"></div>
+      <input type="text" id="guess" placeholder="1234..." formControlName="guess" required>
+
+      <div *ngIf="guess.invalid && (guess.dirty || guess.touched)"
+           class="validation"
+      >
+        <small>
+          Write at least {{max}}
+        </small>
+      </div>
     </div>
-    <button class="btn" type="submit">Check</button>
+    <button class="btn" type="submit" [disabled]="form.invalid" >Check</button>
   </form>
+
 </div>

@@ -17,7 +17,9 @@ body {
 }
 
 .container {
-  max-width: 1000px;
+  //display: flex;
+  //justify-content: space-between;
+  max-width: 500px;
   margin: 0 auto;
   padding: 1rem;
 }
@@ -83,6 +85,8 @@ img {
 }
 
 .card {
+  display: flex;
+  justify-content: space-between;
   padding: 1rem;
   border: #ccc 1px dotted;
   margin: 0.7rem 0;
