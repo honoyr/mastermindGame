@@ -1,0 +1,12 @@
+<p>input-form works!</p>
+
+<div class="container">
+  <form class="card" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-control">
+      <label>Your guess</label>
+      <input type="text" placeholder="1234" [formControlName]="guess">
+      <div class="validation"></div>
+    </div>
+    <button class="btn" type="submit">Check</button>
+  </form>
+</div>

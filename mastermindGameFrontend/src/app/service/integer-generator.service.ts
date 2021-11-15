@@ -30,20 +30,26 @@ export class IntegerGeneratorService {
     const settingsUrl = IntegerGeneratorService.parseToString(gameSettings);
 
     console.log(`${environment.api.host}${settingsUrl}${baseUrl}`);
-    return this.http.get<any>(`${environment.api.host}${settingsUrl}${baseUrl}`)
+    // @ts-ignore
+    return this.http.get<ArrayBuffer>(`${environment.api.host}${settingsUrl}${baseUrl}`, {responseType: 'text'})
       .pipe(
         catchError((error) => {
-          console.log(error);
           return throwError(error);
         }),
-        map(data => data ? IntegerGeneratorService.parseNumber(data) : '')
-      );
+        map(data => {
+          console.log(data)
+          return data ? IntegerGeneratorService.parseNumber(data) : []
+        })
+      )
+      ;
   }
 
-  private static parseNumber(data: any) {
-    console.log('here')
-    console.log(JSON.stringify(data));
-    return data;
+  private static parseNumber(data: ArrayBuffer) {
+    const numbers: number[] = [];
+      data.toString().trim().split("\n").forEach(item => {
+        numbers.push(Number(item));
+    });
+    return numbers;
   }
 
   private static parseToString(gameSettings: GameSettingsDto) {

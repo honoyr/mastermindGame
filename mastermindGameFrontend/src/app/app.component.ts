@@ -8,9 +8,8 @@ import {StopWatchService} from "./service/stop-watch.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  currentDate: Date = new Date();
 
-  constructor(public timer: StopWatchService) {
+  constructor() {
   }
   title = 'mastermindGameFrontend';
 }

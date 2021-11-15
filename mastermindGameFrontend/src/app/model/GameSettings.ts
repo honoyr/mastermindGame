@@ -14,6 +14,10 @@ export enum Settings {
   EASY_TIME = 600000,
   MEDIUM_TIME = 300000,
   HARD_TIME = 20000,
+
+  EASY_NUMBER_OF_ATTEMPTS = 15,
+  MEDIUM_NUMBER_OF_ATTEMPTS = 10,
+  HARD_NUMBER_OF_ATTEMPTS = 5
 }
 
 export class GameSettings {
@@ -21,6 +25,8 @@ export class GameSettings {
   public requestedNumbers!: number;
   public smallestValueReturned!: number;
   public largestValueReturned!: number;
+  public numberOfAttempts!: number;
+  public maxAttempts!:number;
 
   constructor(level?: Levels) {
     if(level) {
@@ -39,18 +45,22 @@ export class GameSettings {
       case Levels.easy:
         this.requestedNumbers = Settings.EASY_NUM;
         this.largestValueReturned = Settings.EASY_MAX;
+        this.numberOfAttempts = Settings.EASY_NUMBER_OF_ATTEMPTS;
         break;
       case Levels.medium:
         this.requestedNumbers = Settings.MEDIUM_NUM;
         this.largestValueReturned = Settings.MEDIUM_MAX;
+        this.numberOfAttempts = Settings.MEDIUM_NUMBER_OF_ATTEMPTS;
         break;
       case Levels.hard:
         this.requestedNumbers = Settings.HARD_NUM;
         this.largestValueReturned = Settings.HARD_MAX;
+        this.numberOfAttempts = Settings.HARD_NUMBER_OF_ATTEMPTS;
         break;
       default:
         this.requestedNumbers = Settings.MEDIUM_NUM;
         this.largestValueReturned = Settings.MEDIUM_MAX;
+        this.numberOfAttempts = Settings.MEDIUM_NUMBER_OF_ATTEMPTS;
         break;
     }
   }
@@ -60,7 +70,8 @@ export class GameSettings {
       level: this.level,
       requestedNumbers: this.requestedNumbers,
       smallestValueReturned: this.smallestValueReturned,
-      largestValueReturned: this.largestValueReturned
+      largestValueReturned: this.largestValueReturned,
+      numberOfAttempts: this.numberOfAttempts,
     }
     return settings;
   }
@@ -71,4 +82,5 @@ export interface GameSettingsDto {
   requestedNumbers: number;
   smallestValueReturned: number;
   largestValueReturned: number;
+  numberOfAttempts: number;
 }

@@ -1,4 +1,14 @@
 <p>game-view works!</p>
 <p>{{error}}</p>
-<p>{{numbers$}}</p>
 
+
+<button (click)="changeSettings(0)">Easy</button>
+<button (click)="changeSettings(1)">Medium</button>
+<button (click)="changeSettings(2)">Hard</button>
+<div *ngFor="let number of numbers$">
+  <p>{{number}}</p>
+</div>
+<!--<input []></input>-->
+<button (click)="NewGame()">New Game</button>
+<!--<form class="card" [formGroup]="form" ]></form>-->
+<!--<app-input-form></app-input-form>-->
