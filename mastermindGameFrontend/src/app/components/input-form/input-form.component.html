@@ -1,18 +1,16 @@
-<p>input-form works!</p>
-
 <div class="container">
   <form class="card" [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-control">
       <label>Your guess</label>
       <input type="text" id="guess" placeholder="1234..." formControlName="guess" required>
-
-      <div *ngIf="guess.invalid && (guess.dirty || guess.touched)"
-           class="validation"
-      >
-        <small>
-          Write at least {{max}}
-        </small>
-      </div>
+<!--      <pre>{{guess.errors | json}}</pre>-->
+<!--      <div *ngIf="guess.invalid"-->
+<!--           class="validation"-->
+<!--      >-->
+<!--        <small *ngIf="guess.errors.required">-->
+<!--          Write at least {{max}}-->
+<!--        </small>-->
+<!--      </div>-->
     </div>
     <button class="btn" type="submit" [disabled]="form.invalid" >Check</button>
   </form>

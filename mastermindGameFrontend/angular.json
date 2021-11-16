@@ -116,8 +116,5 @@
       }
     }
   },
-  "defaultProject": "mastermindGameFrontend",
-  "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
-  }
+  "defaultProject": "mastermindGameFrontend"
 }

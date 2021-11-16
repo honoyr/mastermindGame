@@ -37,6 +37,11 @@ export class GameSettings {
     }
   }
 
+  changeSettings(level:Levels) {
+    this.setSettings(level);
+    return this.getSettings()
+  }
+
   setSettings(level: Levels){
     this.smallestValueReturned = Settings.MIN;
     this.level = level;

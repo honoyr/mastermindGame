@@ -8,7 +8,7 @@ export interface Feedback {
 }
 
 export interface Attempt {
-  guessNumbers: [],
+  guessNumbers: Array<number>,
   feedbacks: Feedback[],
 }
 
@@ -16,7 +16,7 @@ export interface Attempt {
 @Injectable()
 export class GameService {
 
-  randomNumbers!: number[];
+  randomNumbers: Array<number> = [];
   winner: boolean;
   attempts: Attempt[];
   turn: number;
@@ -28,14 +28,12 @@ export class GameService {
     this.turn = 0;
   }
 
-  addAttemptToStack(attempt: Attempt) {
-    this.attempts.push(attempt);
-  }
+
 
   /**
    * Create player's attempt with feedbacks.
    */
-  createAttempt(guessNumbers: []) {
+  createAttempt(guessNumbers: Array<number>) {
     const feedbacks: Feedback[] = this.createFeedbacks(guessNumbers);
     const attempt: Attempt = {
       guessNumbers: guessNumbers,
@@ -45,15 +43,19 @@ export class GameService {
     return attempt;
   }
 
+  addAttemptToStack(attempt: Attempt) {
+    this.attempts.push(attempt);
+  }
+
   /**
   * Return feedback for guessed number.
   */
 
-  private createFeedbacks(guessNumbers: []) {
+  private createFeedbacks(guessNumbers: Array<number>) {
     let feedbacks: Feedback[] = [];
-    const randomNumbers: number[] = [...this.randomNumbers];
+    const randomNumbers: Array<number> = this.randomNumbers.map(number => number);
 
-    for(let idx = 0; idx < guessNumbers.length - 1; idx++){
+    for(let idx = 0; idx < guessNumbers.length; idx++){
       feedbacks.push(this.createFeedback(guessNumbers[idx], idx, randomNumbers));
     }
     return feedbacks;
@@ -62,25 +64,36 @@ export class GameService {
   /**
   * Return feedback for guessed number.
   */
-  private createFeedback(guessNumber: number, position: number, randomNumbers: number[]) {
+  private createFeedback(guessNumbers: number, position: number, randomNumbers: number[]) {
+    console.log('GuessNumb' + guessNumbers + ' position = ' + position);
+    console.log('Rand' + randomNumbers)
     let status: Status;
 
-    if(guessNumber === randomNumbers[position]){
+    if(guessNumbers === randomNumbers[position]){
       status = Status.correctLocationAndNumber;
-    } else if (randomNumbers.includes(guessNumber)) {
-      // include guessNumber in randomNumbers array
-      // find it
-      // delete from it or set to -1;
+      this.preventDoublicats(guessNumbers, randomNumbers)
+    } else if (randomNumbers.includes(guessNumbers)) {
       status = Status.correctNumber;
-      const indexOfGuessNumber = randomNumbers.indexOf(guessNumber);
-      randomNumbers[indexOfGuessNumber] = Status.none; // preventive method from duplicate numbers in randomNumbers.
+      this.preventDoublicats(guessNumbers, randomNumbers)
     } else {
       status = Status.incorrect;
     }
     const feedback: Feedback = {
       status: status
     }
+    console.log(feedback);
     return feedback;
+  }
+
+  /**
+   * Preventive method from duplicate numbers in randomNumbers.
+   * @param guessNumber
+   * @param randomNumbers
+   * @private
+   */
+  private preventDoublicats (guessNumber: number, randomNumbers: number[]) {
+    const indexOfGuessNumber = randomNumbers.indexOf(guessNumber);
+    randomNumbers[indexOfGuessNumber] = Status.none;
   }
 
   checkTurn(attempt: Attempt) {
@@ -108,11 +121,12 @@ export class GameService {
   // }
 
 
-  setSettings(gameSettings: GameSettingsDto, randomNumbers: number[]) {
+  setSettings(gameSettings: GameSettingsDto, randomNumbers: Array<number>) {
     this.gameSettings = gameSettings;
     // this.getRandomNumbers();
 
     this.randomNumbers = randomNumbers;
+    console.log("in game random number" + this.randomNumbers);
     this.winner = false;
     this.attempts = [];
     this.turn = 0;

@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { GameViewComponent } from './components/game-view/game-view.component';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { InputFormComponent } from './components/input-form/input-form.component';
+import { AttemptsListComponent } from './components/attempts-list/attempts-list.component';
+import { AttemptCardComponent } from './components/attempt-card/attempt-card.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { InputFormComponent } from './components/input-form/input-form.component
     AppComponent,
     GameViewComponent,
     CountdownTimerComponent,
-    InputFormComponent
+    InputFormComponent,
+    AttemptsListComponent,
+    AttemptCardComponent
   ],
   imports: [
     BrowserModule,

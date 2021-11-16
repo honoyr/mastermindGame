@@ -1,0 +1,6 @@
+
+<div class="container">
+  <div class="card" *ngFor="let attempt of attempts$">
+    <app-attempt-card id="guessNumber" [attempt$]="attempt"></app-attempt-card>
+  </div>
+</div>
