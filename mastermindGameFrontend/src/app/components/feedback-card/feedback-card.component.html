@@ -1,0 +1,11 @@
+<div *ngFor="let feedback of feedbacks$">
+  <button
+    class="btn"
+    [ngClass]="{
+    none: feedback.status === -1,
+    red: feedback.status === 0,
+    yellow: feedback.status === 1,
+    green: feedback.status === 2
+    }"
+  >{{feedback.status}}</button>
+</div>

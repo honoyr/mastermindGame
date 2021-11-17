@@ -14,10 +14,7 @@ export class AttemptCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.attempt$ = {
-      guessNumbers: [1, 3, 4, 5],
-      feedbacks: [{status: 1}, {status: 1}, {status: 1}, {status: 1}],
-    }
+
   }
 
 }

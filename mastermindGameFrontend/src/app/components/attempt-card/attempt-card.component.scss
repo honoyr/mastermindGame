@@ -1,6 +1,55 @@
-
-
 .btn {
   width: 80px;
   height: 80px;
+}
+
+.feedback {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 3em 3em;
+  grid-gap: 2px;
+  //margin-inside: 1rem;
+}
+
+
+.red,
+.correctLocationAndNumber{
+  background-color: #F8485E;
+}
+
+.green {
+  background-color: #3E7C17;
+}
+
+.blue {
+  background-color: #00C1D4;
+}
+
+.purple {
+  background-color: #512D6D;
+}
+
+.yellow {
+  background-color: #FFB344;
+}
+
+.teal {
+  background-color: #00A19D;
+}
+
+.brown {
+  background-color: #533535;
+}
+
+.orange {
+  background-color: #FF865E;
+}
+
+.pink {
+  background-color: #FF0075;
+}
+
+.none {
+  color: #F8485E;
+  background-color: #F8485E;
 }

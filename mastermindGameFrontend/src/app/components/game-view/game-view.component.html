@@ -1,44 +1,26 @@
-<h1>Mastermind Game</h1>
-<p>{{error}}</p>
+<div class="container">
+  <h1>Mastermind Game</h1>
+</div>
 
+<div class="container">
+  <div class="card">
+    <button class="btn" (click)="changeSettings(0)">Easy</button>
+    <button class="btn" (click)="changeSettings(1)">Medium</button>
+    <button class="btn" (click)="changeSettings(2)">Hard</button>
+  </div>
+</div>
 
-<button (click)="changeSettings(0)">Easy</button>
-<button (click)="changeSettings(1)">Medium</button>
-<button (click)="changeSettings(2)">Hard</button>
-<button (click)="newGame()">New Game</button>
-<!--<div *ngFor="let number of randomNumbers">-->
-<!--  <p>{{number}}</p>-->
-<!--</div>-->
-<p>Attempts</p>
-<!--<ul *ngFor="let attempt of attempts$">-->
-<!--  <li>{{attempt}}</li>-->
-<!--</ul>-->
-<!--<div *ngFor="let attempt of attempts$">-->
-<!--  <p>{{attempt.guessNumbers}}</p>-->
-<!--  <div *ngFor="let feedback of attempt.feedbacks">-->
-<!--    <p>{{feedback.status}}</p>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--<div *ngFor="let attempt of attempts$">-->
-<!--&lt;!&ndash;  <p>{{attempt.guessNumbers}}</p>&ndash;&gt;-->
-<!--  <app-attempt-card [attempt$]="attempt"></app-attempt-card>-->
-<!--</div>-->
-
-<app-attempts-list [attempts$]="attempts$"></app-attempts-list>
-
-<!--<ul *ngFor="let attempt of attempts$">-->
-<!--  <li>{{attempt.guessNumbers}}</li>-->
-<!--  <ul *ngFor="let feedback of attempt.feedbacks">-->
-<!--    <li>{{feedback.status}}</li>-->
-<!--  </ul>-->
-<!--</ul>-->
-<!--<input []></input>-->
-
+<app-attempts-list
+  [attempts$]="attempts$"
+  [mockAttempt$]="mockAttempt$"
+></app-attempts-list>
 <app-input-form
   [gameSettings$]="gameSettingsDto"
   (attemptEventEmitter)="addAttempt($event)"
 ></app-input-form>
 
-<!--<form class="card" [formGroup]="form" ]></form>-->
-<!--<app-input-form></app-input-form>-->
+<div class="container">
+  <div class="card">
+    <button class="btn" (click)="newGame()">New Game</button>
+  </div>
+</div>

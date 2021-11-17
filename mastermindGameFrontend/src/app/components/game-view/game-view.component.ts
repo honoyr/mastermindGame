@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {catchError, Observable, throwError, } from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {catchError, Observable, Subscription, throwError,} from "rxjs";
 import {map} from 'rxjs/operators';
 import {IntegerGeneratorService} from "../../service/integer-generator.service";
 import {Levels} from "../../model/Levels"
@@ -13,10 +13,14 @@ import {Attempt, GameService} from "../../service/game.service";
   styleUrls: ['./game-view.component.scss'],
   providers: [GameService]
 })
-export class GameViewComponent implements OnInit {
+export class GameViewComponent implements OnInit, OnDestroy {
 
   // randomNumber: number[];
   attempts$: Array<Attempt> = [];
+  mockAttempt$: Attempt = {
+      guessNumbers: [-1, -1, -1, -1],
+      feedbacks: [{status: -1}, {status: -1}, {status: -1}, {status: -1}]
+  }
 
   randomNumbers: Array<number> = [];
   attemptNumbers: Array<number> = [];
@@ -24,39 +28,48 @@ export class GameViewComponent implements OnInit {
   gameSettings = new GameSettings()
   error:any;
   loading!: boolean;
+  intGen!: Observable<Array<number>>;
   private game!: GameService;
+  randomNumbersSubscription!: Subscription;
 
   constructor(private gameService: GameService,
               public integerGeneratorService: IntegerGeneratorService) {
-    // this.gameSettings.setSettings(Levels.medium);
-    // this.gameSettingsDto = this.gameSettings.getSettings();
     this.gameSettingsDto = this.gameSettings.changeSettings(Levels.medium);
   }
 
   newGame() {
-    this.integerGeneratorService.getNumbers(this.gameSettingsDto)
-      .subscribe(randomNumber => {
-        this.randomNumbers = randomNumber;
-        this.gameService.setSettings(this.gameSettingsDto, this.randomNumbers);
-      }, error => this.error = error);
-    // this.re
-    // console.log("init Random Numb" + this.randomNumbers)
-
+    this.intGen = this.integerGeneratorService.getNumbers(this.gameSettingsDto);
+    this.randomNumbersSubscription = this.intGen.subscribe(randomNumber => {
+      this.randomNumbers = randomNumber;
+      this.gameService.setSettings(this.gameSettingsDto, this.randomNumbers);
+    }, error => this.error = error)
+    this.attempts$ = [];
   }
 
   changeSettings(level:Levels) {
     this.gameSettingsDto = this.gameSettings.changeSettings(level);
   }
 
+  addAttempt(attemptEventEmitter: any) {
+    this.attemptNumbers = attemptEventEmitter;
+    this.attempts$.push(this.gameService.createAttempt(attemptEventEmitter));
+    console.log(attemptEventEmitter);
+  }
+
+  // resetGame() {
+  //
+  // }
+
   ngOnInit(): void {
     console.log(this.gameSettings);
+    // this.mockAttempt$.push(this.gameService.createAttempt([0,0,0,0]));
     this.newGame();
   }
 
-
-  addAttempt(attemptEventEmitter: any) {
-    this.attemptNumbers = attemptEventEmitter;
-    this.attempts$.push(this.gameService.createAttempt(this.attemptNumbers));
-    console.log(attemptEventEmitter);
+  ngOnDestroy(): void {
+    this.attempts$ = [];
+    this.randomNumbersSubscription.unsubscribe();
   }
+
+
 }

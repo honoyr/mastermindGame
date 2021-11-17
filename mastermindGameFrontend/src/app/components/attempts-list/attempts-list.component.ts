@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Attempt} from "../../service/game.service";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Attempt, Feedback} from "../../service/game.service";
 
 @Component({
   selector: 'app-attempts-list',
@@ -10,7 +10,12 @@ export class AttemptsListComponent implements OnInit {
 
   @Input()
   attempts$!: Array<Attempt>;
+
+  @Input()
+  mockAttempt$!: Attempt
+
   constructor() { }
+
 
   ngOnInit(): void {
   }

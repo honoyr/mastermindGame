@@ -1,6 +1,27 @@
 
+<!--<div class="container">-->
+<!--  <p>Attempts</p>-->
+<!--  <div *ngIf="mockAttempt$; else mockData">-->
+<!--    <app-attempt-card class="guessNumber" [attempt$]="mockAttempt$"></app-attempt-card>-->
+<!--  </div>-->
+<!--  <ng-template #mockData>-->
+<!--    <div class="card" *ngFor="let attempt of attempts$">-->
+<!--      <app-attempt-card class="guessNumber" [attempt$]="attempt"></app-attempt-card>-->
+<!--    </div>-->
+<!--  </ng-template>-->
+<!--</div>-->
+
+
 <div class="container">
-  <div class="card" *ngFor="let attempt of attempts$">
-    <app-attempt-card id="guessNumber" [attempt$]="attempt"></app-attempt-card>
+  <h2>Attempts</h2>
+  <div *ngIf="attempts$[0]; else mockData" >
+    <div class="card" *ngFor="let attempt of attempts$">
+      <app-attempt-card class="guessNumber" [attempt$]="attempt"></app-attempt-card>
+    </div>
   </div>
+  <ng-template #mockData>
+    <div class="card">
+      <app-attempt-card class="guessNumber" [attempt$]="mockAttempt$"></app-attempt-card>
+    </div>
+  </ng-template>
 </div>

@@ -2,17 +2,17 @@
   <form class="card" [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-control">
       <label>Your guess</label>
-      <input type="text" id="guess" placeholder="1234..." formControlName="guess" required>
+      <input type="text" id="guess" placeholder="1234..." formControlName="guess" >
 <!--      <pre>{{guess.errors | json}}</pre>-->
-<!--      <div *ngIf="guess.invalid"-->
-<!--           class="validation"-->
-<!--      >-->
-<!--        <small *ngIf="guess.errors.required">-->
-<!--          Write at least {{max}}-->
-<!--        </small>-->
-<!--      </div>-->
+      <div *ngIf="form.controls['guess'].invalid && form.controls['guess'].touched"
+           class="validation"
+      >
+        <small *ngIf="form.controls['guess'].errors">
+          Type {{maxLen}} positive numbers between {{min}} - {{max}}
+        </small>
+      </div>
     </div>
-    <button class="btn" type="submit" [disabled]="form.invalid" >Check</button>
+    <button class="btn" type="submit" [disabled]="form?.invalid" >Check</button>
   </form>
 
 </div>

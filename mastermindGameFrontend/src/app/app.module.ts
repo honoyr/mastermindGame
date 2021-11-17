@@ -12,6 +12,7 @@ import { CountdownTimerComponent } from './components/countdown-timer/countdown-
 import { InputFormComponent } from './components/input-form/input-form.component';
 import { AttemptsListComponent } from './components/attempts-list/attempts-list.component';
 import { AttemptCardComponent } from './components/attempt-card/attempt-card.component';
+import { FeedbackCardComponent } from './components/feedback-card/feedback-card.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AttemptCardComponent } from './components/attempt-card/attempt-card.com
     CountdownTimerComponent,
     InputFormComponent,
     AttemptsListComponent,
-    AttemptCardComponent
+    AttemptCardComponent,
+    FeedbackCardComponent
   ],
   imports: [
     BrowserModule,

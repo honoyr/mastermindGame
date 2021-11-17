@@ -2,30 +2,20 @@ import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, P
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
 import {GameSettingsDto} from "../../model/GameSettings";
 
-// const VALUE_ACCESSOR: Provider = {
-//   provide: NG_VALUE_ACCESSOR,
-//   useExisting: forwardRef(() => InputFormComponent),
-//   multi: true
-// }
-
 @Component({
   selector: 'app-input-form',
   templateUrl: './input-form.component.html',
   styleUrls: ['./input-form.component.scss']
 })
-export class InputFormComponent implements OnInit, OnChanges, ControlValueAccessor {
-
+export class InputFormComponent implements OnInit, OnChanges {
 
   @Input()
   gameSettings$!: GameSettingsDto;
 
-  // @Output()
-  // guessNumbers$: Array<number>;
+  @Output()
+  attemptEventEmitter: EventEmitter<Array<number>> = new EventEmitter<Array<number>>();
 
-  @Output() attemptEventEmitter: EventEmitter<Array<number>> = new EventEmitter<Array<number>>();
-
-
-  form!: FormGroup;
+  form: FormGroup = new FormGroup({ guess: new FormControl('')});
   min!: string;
   max!: string;
   maxLen!: string;
@@ -42,32 +32,33 @@ export class InputFormComponent implements OnInit, OnChanges, ControlValueAccess
     this.maxLen = this.gameSettings$.requestedNumbers.toString();
     let regex: string = `[${this.min}-${this.max}]{${this.maxLen}}`
     this.initForm(regex);
+    // if (this.gameSettings$){
+    //   initSettings(this.gameSettings$)
+    // } esle {
+    //   // default setting
+    // }
     }
 
   ngOnInit(): void {
-
-
-    console.log(this.maxLen)
+    console.log(this.gameSettings$);
   }
 
   get guess() { return this.form.get('guess'); }
 
   transform(formData: string){
-    let guessNumber: number[] = [];
-    // formData.forEach((char:any) => guessNumber.push(Number(char)));
+    let guessNumbers: number[] = [];
     for(let char of formData){
-      guessNumber.push(Number(char));
+      guessNumbers.push(Number(char));
     }
-    return guessNumber;
+    console.log("Input");
+    console.log(guessNumbers);
+    return guessNumbers;
   }
 
   submit() {
     const formData = {...this.form.value};
     this.attempt = this.transform(formData.guess);
     console.log(this.attempt);
-    // this.min = this.gameSettings$.smallestValueReturned.toString();
-    // this.max = this.gameSettings$.largestValueReturned.toString();
-    // this.maxLen = this.gameSettings$.requestedNumbers.toString();
     this.attemptEventEmitter.emit(this.attempt);
     this.form.reset();
   }
@@ -76,25 +67,10 @@ export class InputFormComponent implements OnInit, OnChanges, ControlValueAccess
     this.form = new FormGroup({
       guess: new FormControl('',
         [
-          // Validators.maxLength(4),
-          // Validators.minLength(4),
-          // Validators.max(7),
-          // Validators.min(0),
           Validators.pattern(regex),
           Validators.required,
         ]),
     })
   }
 
-  registerOnChange(fn: any): void {
-  }
-
-  registerOnTouched(fn: any): void {
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-  }
-
-  writeValue(obj: any): void {
-  }
 }

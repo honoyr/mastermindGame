@@ -19,6 +19,7 @@ export class GameService {
   randomNumbers: Array<number> = [];
   winner: boolean;
   attempts: Attempt[];
+  guessNumbers: Array<number> = [];
   turn: number;
   gameSettings!: GameSettingsDto;
 
@@ -29,14 +30,18 @@ export class GameService {
   }
 
 
-
   /**
    * Create player's attempt with feedbacks.
    */
-  createAttempt(guessNumbers: Array<number>) {
-    const feedbacks: Feedback[] = this.createFeedbacks(guessNumbers);
+  createAttempt(guessNumbersOriginal: Array<number>) {
+
+    console.log("guessNumb Service" + guessNumbersOriginal);
+
+    const randomNumbersCopy: Array<number> = this.randomNumbers.map(number => number);
+    const guessNumbers: Array<number> = guessNumbersOriginal.map(number => number);
+    const feedbacks: Feedback[] = this.createFeedbacks(guessNumbers, randomNumbersCopy);
     const attempt: Attempt = {
-      guessNumbers: guessNumbers,
+      guessNumbers: guessNumbersOriginal,
       feedbacks: feedbacks,
     }
     this.addAttemptToStack(attempt);
@@ -47,41 +52,49 @@ export class GameService {
     this.attempts.push(attempt);
   }
 
+
   /**
-  * Return feedback for guessed number.
+  * Return feedbacks of guessed numbers.
   */
 
-  private createFeedbacks(guessNumbers: Array<number>) {
+  private createFeedbacks(guessNumbers: Array<number>, randomNumbersCopy: Array<number>) {
     let feedbacks: Feedback[] = [];
-    const randomNumbers: Array<number> = this.randomNumbers.map(number => number);
 
     for(let idx = 0; idx < guessNumbers.length; idx++){
-      feedbacks.push(this.createFeedback(guessNumbers[idx], idx, randomNumbers));
+      if (guessNumbers[idx] === randomNumbersCopy[idx]) {
+        feedbacks.push(this.createFeedback(guessNumbers[idx], idx, randomNumbersCopy));
+        guessNumbers[idx] = Status.none;
+        randomNumbersCopy[idx] = Status.none;
+      }
     }
+    for(let idx = 0; idx < guessNumbers.length; idx++){
+      if(guessNumbers[idx] !== Status.none) {
+        feedbacks.push(this.createFeedback(guessNumbers[idx], idx, randomNumbersCopy));
+      }
+    }
+    feedbacks.sort((a, b) =>  b.status - a.status);
     return feedbacks;
   }
 
   /**
-  * Return feedback for guessed number.
+  * Return feedback of guessed number.
   */
   private createFeedback(guessNumbers: number, position: number, randomNumbers: number[]) {
-    console.log('GuessNumb' + guessNumbers + ' position = ' + position);
-    console.log('Rand' + randomNumbers)
+    const feedback: Feedback = {
+      status: Status.none
+    }
     let status: Status;
 
     if(guessNumbers === randomNumbers[position]){
       status = Status.correctLocationAndNumber;
-      this.preventDoublicats(guessNumbers, randomNumbers)
+      this.preventDublicates(guessNumbers, randomNumbers)
     } else if (randomNumbers.includes(guessNumbers)) {
       status = Status.correctNumber;
-      this.preventDoublicats(guessNumbers, randomNumbers)
+      this.preventDublicates(guessNumbers, randomNumbers)
     } else {
       status = Status.incorrect;
     }
-    const feedback: Feedback = {
-      status: status
-    }
-    console.log(feedback);
+    feedback.status = status;
     return feedback;
   }
 
@@ -91,7 +104,7 @@ export class GameService {
    * @param randomNumbers
    * @private
    */
-  private preventDoublicats (guessNumber: number, randomNumbers: number[]) {
+  private preventDublicates (guessNumber: number, randomNumbers: number[]) {
     const indexOfGuessNumber = randomNumbers.indexOf(guessNumber);
     randomNumbers[indexOfGuessNumber] = Status.none;
   }
@@ -131,4 +144,6 @@ export class GameService {
     this.attempts = [];
     this.turn = 0;
   }
+
+
 }

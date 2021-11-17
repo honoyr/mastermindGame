@@ -1,10 +1,22 @@
 
-
-
-  <div *ngFor="let guessNumber of attempt$.guessNumbers">
-    <button class="btn">{{guessNumber}}</button>
-  </div>
-
-<!--<p>{{attempt$.guessNumbers}}</p>-->
-
-<!--<p>still works!</p>-->
+<div *ngFor="let guessNumber of attempt$.guessNumbers">
+    <button
+      class="btn"
+      [ngClass]="{
+      none:   guessNumber === -1,
+      red:    guessNumber === 0,
+      green:  guessNumber === 1,
+      blue:   guessNumber === 2,
+      purple: guessNumber === 3,
+      yellow: guessNumber === 4,
+      tail:   guessNumber === 5,
+      brown:  guessNumber === 6,
+      orange: guessNumber === 7,
+      pink:   guessNumber === 8
+      }"
+    >{{guessNumber}}</button>
+</div>
+<app-feedback-card
+  class="feedback"
+  [feedbacks$]="attempt$.feedbacks"
+></app-feedback-card>
