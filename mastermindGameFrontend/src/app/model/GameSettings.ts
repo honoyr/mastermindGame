@@ -3,13 +3,13 @@ import {Levels} from "./Levels";
 export enum Settings {
   EASY_NUM = 3,
   MEDIUM_NUM = 4,
-  HARD_NUM = 6,
+  HARD_NUM = 5,
 
   MIN = 0,
 
   EASY_MAX = 5,
   MEDIUM_MAX = 7,
-  HARD_MAX = 9,
+  HARD_MAX = 8,
 
   EASY_TIME = 600000,
   MEDIUM_TIME = 300000,

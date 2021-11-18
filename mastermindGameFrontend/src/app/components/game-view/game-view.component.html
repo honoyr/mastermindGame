@@ -11,12 +11,12 @@
 </div>
 
 <app-attempts-list
-  [attempts$]="attempts$"
+  [attempts$]="gameService.attempts"
   [mockAttempt$]="mockAttempt$"
 ></app-attempts-list>
 <app-input-form
   [gameSettings$]="gameSettingsDto"
-  (attemptEventEmitter)="addAttempt($event)"
+  (attemptEventEmitter)="createAttempt($event)"
 ></app-input-form>
 
 <div class="container">

@@ -16,60 +16,80 @@ export interface Attempt {
 @Injectable()
 export class GameService {
 
-  randomNumbers: Array<number> = [];
-  winner: boolean;
-  attempts: Attempt[];
-  guessNumbers: Array<number> = [];
-  turn: number;
-  gameSettings!: GameSettingsDto;
+  private _randomNumbers: Array<number> = [];
+  private _winner: boolean;
+  private _attempts: Attempt[];
+  private _guessNumbers: Array<number> = [];
+  private _turn: number;
+  private _gameSettings!: GameSettingsDto;
 
   constructor(private integerGenerator: IntegerGeneratorService) {
-    this.winner = false;
-    this.attempts = [];
-    this.turn = 0;
+    this._winner = false;
+    this._attempts = [];
+    this._turn = 0;
+  }
+
+  get randomNumbers(): Array<number> {
+    return this._randomNumbers;
+  }
+
+  get winner(): boolean {
+    return this._winner;
+  }
+
+  get attempts(): Attempt[] {
+    return this._attempts;
+  }
+
+  get guessNumbers(): Array<number> {
+    return this._guessNumbers;
+  }
+
+  get turn(): number {
+    return this._turn;
+  }
+
+  get gameSettings(): GameSettingsDto {
+    return this._gameSettings;
   }
 
 
   /**
    * Create player's attempt with feedbacks.
    */
-  createAttempt(guessNumbersOriginal: Array<number>) {
-
-    console.log("guessNumb Service" + guessNumbersOriginal);
-
-    const randomNumbersCopy: Array<number> = this.randomNumbers.map(number => number);
-    const guessNumbers: Array<number> = guessNumbersOriginal.map(number => number);
-    const feedbacks: Feedback[] = this.createFeedbacks(guessNumbers, randomNumbersCopy);
+  createAttempt(guessNumbers: Array<number>) {
+    const feedbacks: Feedback[] = this.createFeedbacks(guessNumbers);
     const attempt: Attempt = {
-      guessNumbers: guessNumbersOriginal,
+      guessNumbers: guessNumbers,
       feedbacks: feedbacks,
     }
     this.addAttemptToStack(attempt);
-    return attempt;
   }
 
   addAttemptToStack(attempt: Attempt) {
-    this.attempts.push(attempt);
+    this._attempts.push(attempt);
   }
 
 
   /**
-  * Return feedbacks of guessed numbers.
+  * Return feedbacks for guessed numbers.
   */
 
-  private createFeedbacks(guessNumbers: Array<number>, randomNumbersCopy: Array<number>) {
+  private createFeedbacks(guessNumbers: Array<number>) {
     let feedbacks: Feedback[] = [];
+    const guessNumbersCopy: Array<number> = guessNumbers.map(number => number);
+    const randomNumbersCopy: Array<number> = this._randomNumbers.map(number => number);
 
-    for(let idx = 0; idx < guessNumbers.length; idx++){
-      if (guessNumbers[idx] === randomNumbersCopy[idx]) {
-        feedbacks.push(this.createFeedback(guessNumbers[idx], idx, randomNumbersCopy));
-        guessNumbers[idx] = Status.none;
+    for(let idx = 0; idx < guessNumbersCopy.length; idx++){
+      if (guessNumbersCopy[idx] === randomNumbersCopy[idx]) {
+        feedbacks.push(this.createFeedback(guessNumbersCopy[idx], idx, randomNumbersCopy));
+        guessNumbersCopy[idx] = Status.none;
         randomNumbersCopy[idx] = Status.none;
       }
     }
-    for(let idx = 0; idx < guessNumbers.length; idx++){
-      if(guessNumbers[idx] !== Status.none) {
-        feedbacks.push(this.createFeedback(guessNumbers[idx], idx, randomNumbersCopy));
+    for(let idx = 0; idx < guessNumbersCopy.length; idx++){
+      if(guessNumbersCopy[idx] !== Status.none) {
+        feedbacks.push(this.createFeedback(guessNumbersCopy[idx], idx, randomNumbersCopy));
       }
     }
     feedbacks.sort((a, b) =>  b.status - a.status);
@@ -77,7 +97,7 @@ export class GameService {
   }
 
   /**
-  * Return feedback of guessed number.
+  * Return feedback for a guessed number.
   */
   private createFeedback(guessNumbers: number, position: number, randomNumbers: number[]) {
     const feedback: Feedback = {
@@ -110,14 +130,14 @@ export class GameService {
   }
 
   checkTurn(attempt: Attempt) {
-    if (this.turn === this.gameSettings.numberOfAttempts){
+    if (this._turn === this._gameSettings.numberOfAttempts){
       this.checkWinner(attempt)
-      return this.winner ? "player won the game" : "computer won game"
+      return this._winner ? "player won the game" : "computer won game"
     } else {
       this.checkWinner(attempt)
-      return this.winner ? "player won the game" : "not yet"
+      return this._winner ? "player won the game" : "not yet"
     }
-    this.turn++;
+    // this.turn++;
   }
 
   // private getRandomNumbers() {
@@ -126,7 +146,7 @@ export class GameService {
   // }
 
   checkWinner(attempt: Attempt) {
-    this.winner = attempt.feedbacks.every(feedback => feedback.status !== Status.correctLocationAndNumber);
+    this._winner = attempt.feedbacks.every(feedback => feedback.status !== Status.correctLocationAndNumber);
   }
 
   // changeGameSettings(level) {
@@ -135,14 +155,14 @@ export class GameService {
 
 
   setSettings(gameSettings: GameSettingsDto, randomNumbers: Array<number>) {
-    this.gameSettings = gameSettings;
+    this._gameSettings = gameSettings;
     // this.getRandomNumbers();
 
-    this.randomNumbers = randomNumbers;
-    console.log("in game random number" + this.randomNumbers);
-    this.winner = false;
-    this.attempts = [];
-    this.turn = 0;
+    this._randomNumbers = randomNumbers;
+    console.log("in game random number" + this._randomNumbers);
+    this._winner = false;
+    this._attempts = [];
+    this._turn = 0;
   }
 
 

@@ -6,8 +6,11 @@ export class GameModel {
   gameSettings!: GameSettingsDto;
   randomNumbers!: Array<number>;
   attempts!: Attempt[];
+  attempt!: Attempt;
+  mockAttempt$!: Attempt;
 
-  winner!: boolean;
+  winnerStatus!: boolean;
+  winner!: string;
   turns!: number;
 
   resetGameModel() {
@@ -15,12 +18,14 @@ export class GameModel {
     this.randomNumbers = []
     this.attempts = []
 
-    this.winner = false;
+    this.winnerStatus = false;
     this.turns = 0;
   }
 
 }
 
-export class GameModelDTO {
+export interface GameModelDto {
+  winnerStatus: boolean;
+  winner: string;
 
 }

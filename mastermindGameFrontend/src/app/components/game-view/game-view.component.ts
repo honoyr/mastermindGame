@@ -23,7 +23,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
   }
 
   randomNumbers: Array<number> = [];
-  attemptNumbers: Array<number> = [];
+  guessNumbers: Array<number> = [];
   gameSettingsDto!: GameSettingsDto;
   gameSettings = new GameSettings()
   error:any;
@@ -32,30 +32,40 @@ export class GameViewComponent implements OnInit, OnDestroy {
   private game!: GameService;
   randomNumbersSubscription!: Subscription;
 
-  constructor(private gameService: GameService,
+  constructor(public gameService: GameService,
               public integerGeneratorService: IntegerGeneratorService) {
     this.gameSettingsDto = this.gameSettings.changeSettings(Levels.medium);
   }
 
   newGame() {
     this.intGen = this.integerGeneratorService.getNumbers(this.gameSettingsDto);
-    this.randomNumbersSubscription = this.intGen.subscribe(randomNumber => {
-      this.randomNumbers = randomNumber;
+    this.randomNumbersSubscription = this.intGen.subscribe(randomNumbers => {
+      this.randomNumbers = randomNumbers;
       this.gameService.setSettings(this.gameSettingsDto, this.randomNumbers);
     }, error => this.error = error)
-    this.attempts$ = [];
+    this.attempts$ = []; // reset game settings and data in the component.
   }
 
   changeSettings(level:Levels) {
     this.gameSettingsDto = this.gameSettings.changeSettings(level);
   }
 
-  addAttempt(attemptEventEmitter: any) {
-    this.attemptNumbers = attemptEventEmitter;
-    this.attempts$.push(this.gameService.createAttempt(attemptEventEmitter));
+  createAttemptAndCheckWinner (attemptEventEmitter: any) {
+    this.createAttempt(attemptEventEmitter)
+    this.gameService.checkWinner(attemptEventEmitter);
+
+  }
+  createAttempt(attemptEventEmitter: any) {
+    this.guessNumbers = attemptEventEmitter;
+    this.gameService.createAttempt(attemptEventEmitter);
+
     console.log(attemptEventEmitter);
   }
 
+  // checkWinner() {
+  //   this.gameService.checkWinner()
+  //   this.gameService.turn++;
+  // }
   // resetGame() {
   //
   // }
