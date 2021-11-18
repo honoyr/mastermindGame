@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Status} from "../model/Status";
 import {GameSettingsDto} from "../model/GameSettings";
-import {IntegerGeneratorService} from "./integer-generator.service";
+import {Messages} from "../model/Messages";
 
 export interface Feedback {
   status: Status,
@@ -9,35 +9,38 @@ export interface Feedback {
 
 export interface Attempt {
   guessNumbers: Array<number>,
-  feedbacks: Feedback[],
+  feedbacks:    Feedback[],
 }
 
 
 @Injectable()
 export class GameService {
+  private _randomNumbers:   Array<number> = [];
+  private _guessNumbers:    Array<number> = [];
+  private _attempts:        Array<Attempt> = [];
 
-  private _randomNumbers: Array<number> = [];
-  private _winner: boolean;
-  private _attempts: Attempt[];
-  private _guessNumbers: Array<number> = [];
-  private _turn: number;
-  private _gameSettings!: GameSettingsDto;
+  private _gameSettings!:   GameSettingsDto;
+  private _gameStatus:      boolean = true;
+  private _turn:            number = 0;
+  private _message!:         Messages;
 
-  constructor(private integerGenerator: IntegerGeneratorService) {
-    this._winner = false;
-    this._attempts = [];
-    this._turn = 0;
+
+  constructor() {
   }
 
   get randomNumbers(): Array<number> {
     return this._randomNumbers;
   }
 
-  get winner(): boolean {
-    return this._winner;
+  get gameStatus(): boolean {
+    return this._gameStatus;
   }
 
-  get attempts(): Attempt[] {
+  // get winnerStatus(): boolean {
+  //   return this._winnerStatus;
+  // }
+
+  get attempts(): Array<Attempt> {
     return this._attempts;
   }
 
@@ -74,7 +77,6 @@ export class GameService {
   /**
   * Return feedbacks for guessed numbers.
   */
-
   private createFeedbacks(guessNumbers: Array<number>) {
     let feedbacks: Feedback[] = [];
     const guessNumbersCopy: Array<number> = guessNumbers.map(number => number);
@@ -107,10 +109,10 @@ export class GameService {
 
     if(guessNumbers === randomNumbers[position]){
       status = Status.correctLocationAndNumber;
-      this.preventDublicates(guessNumbers, randomNumbers)
+      this.preventDuplicates(guessNumbers, randomNumbers)
     } else if (randomNumbers.includes(guessNumbers)) {
       status = Status.correctNumber;
-      this.preventDublicates(guessNumbers, randomNumbers)
+      this.preventDuplicates(guessNumbers, randomNumbers)
     } else {
       status = Status.incorrect;
     }
@@ -124,29 +126,35 @@ export class GameService {
    * @param randomNumbers
    * @private
    */
-  private preventDublicates (guessNumber: number, randomNumbers: number[]) {
+  private preventDuplicates (guessNumber: number, randomNumbers: number[]) {
     const indexOfGuessNumber = randomNumbers.indexOf(guessNumber);
     randomNumbers[indexOfGuessNumber] = Status.none;
   }
 
-  checkTurn(attempt: Attempt) {
-    if (this._turn === this._gameSettings.numberOfAttempts){
-      this.checkWinner(attempt)
-      return this._winner ? "player won the game" : "computer won game"
-    } else {
-      this.checkWinner(attempt)
-      return this._winner ? "player won the game" : "not yet"
+  hasGameEnded() {
+    if (this.isNumberOfAttemptsFull()){
+      this._message = Messages.attemptsFull;
+    } else if (this.isPositiveFeedback(this._attempts[this._attempts.length - 1])) {
+      this._message = Messages.playerWon;
     }
-    // this.turn++;
+    return this._gameStatus;
   }
 
-  // private getRandomNumbers() {
-  //   this.integerGenerator.getNumbers(this.gameSettings)
-  //     .subscribe(randomNumbers => this.randomNumbers = randomNumbers);
-  // }
+  getMessage() {
+    return this._message;
+  }
 
-  checkWinner(attempt: Attempt) {
-    this._winner = attempt.feedbacks.every(feedback => feedback.status !== Status.correctLocationAndNumber);
+
+  isNumberOfAttemptsFull() {
+    this._gameStatus = this._attempts.length !== this._gameSettings.numberOfAttempts;
+    return this._gameStatus
+  }
+
+  isPositiveFeedback(attempt: Attempt) {
+    this._gameStatus = attempt.feedbacks.every(feedback => {
+      return feedback.status !== Status.correctLocationAndNumber
+    });
+    return this._gameStatus
   }
 
   // changeGameSettings(level) {
@@ -160,9 +168,14 @@ export class GameService {
 
     this._randomNumbers = randomNumbers;
     console.log("in game random number" + this._randomNumbers);
-    this._winner = false;
+    this._gameStatus = true;
     this._attempts = [];
     this._turn = 0;
+  }
+
+
+  resetGame() {
+    this._attempts = [];
   }
 
 

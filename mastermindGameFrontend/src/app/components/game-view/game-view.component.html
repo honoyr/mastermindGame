@@ -16,7 +16,7 @@
 ></app-attempts-list>
 <app-input-form
   [gameSettings$]="gameSettingsDto"
-  (attemptEventEmitter)="createAttempt($event)"
+  (attemptEventEmitter)="createAttemptAndCheckWinner($event)"
 ></app-input-form>
 
 <div class="container">

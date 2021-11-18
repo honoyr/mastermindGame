@@ -13,6 +13,7 @@ import { InputFormComponent } from './components/input-form/input-form.component
 import { AttemptsListComponent } from './components/attempts-list/attempts-list.component';
 import { AttemptCardComponent } from './components/attempt-card/attempt-card.component';
 import { FeedbackCardComponent } from './components/feedback-card/feedback-card.component';
+import { OpenDialogComponent } from './components/open-dialog/open-dialog.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { FeedbackCardComponent } from './components/feedback-card/feedback-card.
     InputFormComponent,
     AttemptsListComponent,
     AttemptCardComponent,
-    FeedbackCardComponent
+    FeedbackCardComponent,
+    OpenDialogComponent
   ],
   imports: [
     BrowserModule,

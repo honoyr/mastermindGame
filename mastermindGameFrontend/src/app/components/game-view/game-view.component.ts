@@ -15,22 +15,17 @@ import {Attempt, GameService} from "../../service/game.service";
 })
 export class GameViewComponent implements OnInit, OnDestroy {
 
-  // randomNumber: number[];
-  attempts$: Array<Attempt> = [];
   mockAttempt$: Attempt = {
       guessNumbers: [-1, -1, -1, -1],
       feedbacks: [{status: -1}, {status: -1}, {status: -1}, {status: -1}]
   }
 
-  randomNumbers: Array<number> = [];
-  guessNumbers: Array<number> = [];
   gameSettingsDto!: GameSettingsDto;
   gameSettings = new GameSettings()
   error:any;
   loading!: boolean;
-  intGen!: Observable<Array<number>>;
-  private game!: GameService;
   randomNumbersSubscription!: Subscription;
+  private message: string = '';
 
   constructor(public gameService: GameService,
               public integerGeneratorService: IntegerGeneratorService) {
@@ -38,29 +33,25 @@ export class GameViewComponent implements OnInit, OnDestroy {
   }
 
   newGame() {
-    this.intGen = this.integerGeneratorService.getNumbers(this.gameSettingsDto);
-    this.randomNumbersSubscription = this.intGen.subscribe(randomNumbers => {
-      this.randomNumbers = randomNumbers;
-      this.gameService.setSettings(this.gameSettingsDto, this.randomNumbers);
+    this.randomNumbersSubscription = this.integerGeneratorService.getNumbers(this.gameSettingsDto)
+      .subscribe(randomNumbers => {
+      this.gameService.setSettings(this.gameSettingsDto, randomNumbers);
     }, error => this.error = error)
-    this.attempts$ = []; // reset game settings and data in the component.
+    this.gameService.resetGame();
   }
 
   changeSettings(level:Levels) {
     this.gameSettingsDto = this.gameSettings.changeSettings(level);
   }
 
-  createAttemptAndCheckWinner (attemptEventEmitter: any) {
-    this.createAttempt(attemptEventEmitter)
-    this.gameService.checkWinner(attemptEventEmitter);
+  createAttemptAndCheckWinner (guessNumberEventEmitter: any) {
+    this.gameService.createAttempt(guessNumberEventEmitter);
+    if (this.gameService.hasGameEnded()) {
+      this.message = this.gameService.getMessage();
+    }
 
   }
-  createAttempt(attemptEventEmitter: any) {
-    this.guessNumbers = attemptEventEmitter;
-    this.gameService.createAttempt(attemptEventEmitter);
 
-    console.log(attemptEventEmitter);
-  }
 
   // checkWinner() {
   //   this.gameService.checkWinner()
@@ -72,12 +63,11 @@ export class GameViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(this.gameSettings);
-    // this.mockAttempt$.push(this.gameService.createAttempt([0,0,0,0]));
     this.newGame();
   }
 
   ngOnDestroy(): void {
-    this.attempts$ = [];
+    this.gameService.resetGame();
     this.randomNumbersSubscription.unsubscribe();
   }
 
