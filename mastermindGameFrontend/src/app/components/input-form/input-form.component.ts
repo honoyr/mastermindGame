@@ -12,6 +12,10 @@ export class InputFormComponent implements OnInit, OnChanges {
   @Input()
   gameSettings$!: GameSettingsDto;
 
+  @Input()
+  gameStatus$!: boolean;
+
+
   @Output()
   attemptEventEmitter: EventEmitter<Array<number>> = new EventEmitter<Array<number>>();
 

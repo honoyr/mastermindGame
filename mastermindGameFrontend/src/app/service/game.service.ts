@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Status} from "../model/Status";
 import {GameSettingsDto} from "../model/GameSettings";
 import {Messages} from "../model/Messages";
+import {DialogData} from "../components/open-dialog/open-dialog.component";
 
 export interface Feedback {
   status: Status,
@@ -134,27 +135,41 @@ export class GameService {
   hasGameEnded() {
     if (this.isNumberOfAttemptsFull()){
       this._message = Messages.attemptsFull;
+      this._gameStatus = false;
+      return true;
     } else if (this.isPositiveFeedback(this._attempts[this._attempts.length - 1])) {
       this._message = Messages.playerWon;
+      this._gameStatus = false;
+      return true
     }
-    return this._gameStatus;
+    return false;
   }
 
   getMessage() {
     return this._message;
   }
 
+  getDialogMessage() {
+    if(this._message) {
+      const dialogMessage: DialogData = {
+        title: Messages.titleWinner,
+        content: this._message,
+        other: `Game was finished on ${this._attempts.length}th attempt.`
+      };
+      return dialogMessage;
+    }
+    return ;
+  }
+
 
   isNumberOfAttemptsFull() {
-    this._gameStatus = this._attempts.length !== this._gameSettings.numberOfAttempts;
-    return this._gameStatus
+    return this._attempts.length === this._gameSettings.numberOfAttempts;
   }
 
   isPositiveFeedback(attempt: Attempt) {
-    this._gameStatus = attempt.feedbacks.every(feedback => {
-      return feedback.status !== Status.correctLocationAndNumber
+    return attempt.feedbacks.every(feedback => {
+      return feedback.status === Status.correctLocationAndNumber
     });
-    return this._gameStatus
   }
 
   // changeGameSettings(level) {
@@ -177,6 +192,7 @@ export class GameService {
   resetGame() {
     this._attempts = [];
   }
+
 
 
 }

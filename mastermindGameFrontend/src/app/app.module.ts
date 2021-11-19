@@ -14,6 +14,8 @@ import { AttemptsListComponent } from './components/attempts-list/attempts-list.
 import { AttemptCardComponent } from './components/attempt-card/attempt-card.component';
 import { FeedbackCardComponent } from './components/feedback-card/feedback-card.component';
 import { OpenDialogComponent } from './components/open-dialog/open-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MaterialModule} from "../material.module";
 
 
 @NgModule({
@@ -25,7 +27,7 @@ import { OpenDialogComponent } from './components/open-dialog/open-dialog.compon
     AttemptsListComponent,
     AttemptCardComponent,
     FeedbackCardComponent,
-    OpenDialogComponent
+    OpenDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,8 @@ import { OpenDialogComponent } from './components/open-dialog/open-dialog.compon
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    MaterialModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

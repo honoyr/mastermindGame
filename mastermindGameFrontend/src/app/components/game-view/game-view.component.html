@@ -16,6 +16,7 @@
 ></app-attempts-list>
 <app-input-form
   [gameSettings$]="gameSettingsDto"
+  [gameStatus$]="this.gameService.gameStatus"
   (attemptEventEmitter)="createAttemptAndCheckWinner($event)"
 ></app-input-form>
 

@@ -1,10 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import {catchError, Observable, Subscription, throwError,} from "rxjs";
 import {map} from 'rxjs/operators';
 import {IntegerGeneratorService} from "../../service/integer-generator.service";
 import {Levels} from "../../model/Levels"
 import {GameSettings, GameSettingsDto} from "../../model/GameSettings";
 import {Attempt, GameService} from "../../service/game.service";
+import {DialogData, OpenDialogComponent} from "../open-dialog/open-dialog.component";
+import {Messages} from "../../model/Messages";
 // import {controlNameBinding} from "@angular/forms";
 
 @Component({
@@ -25,9 +28,11 @@ export class GameViewComponent implements OnInit, OnDestroy {
   error:any;
   loading!: boolean;
   randomNumbersSubscription!: Subscription;
+  dialogRefSubscription!: Subscription;
   private message: string = '';
 
-  constructor(public gameService: GameService,
+  constructor(public dialog: MatDialog,
+              public gameService: GameService,
               public integerGeneratorService: IntegerGeneratorService) {
     this.gameSettingsDto = this.gameSettings.changeSettings(Levels.medium);
   }
@@ -41,17 +46,57 @@ export class GameViewComponent implements OnInit, OnDestroy {
   }
 
   changeSettings(level:Levels) {
-    this.gameSettingsDto = this.gameSettings.changeSettings(level);
+    const data: DialogData = {
+      title: Messages.titleWarning,
+      content: Messages.changeSettings,
+      other: ""
+    }
+
+    if (this.dialogRefSubscription){
+      this.dialogRefSubscription.unsubscribe();
+    }
+
+    const dialogRef = this.dialog.open(OpenDialogComponent, {data});
+    this.dialogRefSubscription = dialogRef.afterClosed()
+      .subscribe((status: boolean) => {
+        console.log("Settings Status")
+        console.log(status);
+        if (status === true) {
+          this.gameSettingsDto = this.gameSettings.changeSettings(level);
+          this.newGame();
+        }
+      })
+      // .unsubscribe();
   }
 
   createAttemptAndCheckWinner (guessNumberEventEmitter: any) {
-    this.gameService.createAttempt(guessNumberEventEmitter);
-    if (this.gameService.hasGameEnded()) {
-      this.message = this.gameService.getMessage();
+    if(this.gameService.gameStatus){
+      this.gameService.createAttempt(guessNumberEventEmitter);
     }
-
+    if (this.gameService.hasGameEnded()) {
+        this.openDialogWinnerMessage();
+    }
   }
 
+  openDialogWinnerMessage() {
+    const data = this.gameService.getDialogMessage();
+
+    if (this.dialogRefSubscription){
+      this.dialogRefSubscription.unsubscribe();
+    }
+    // @ts-ignore
+    const dialogRef = this.dialog.open(OpenDialogComponent, {data});
+    this.dialogRefSubscription = dialogRef.afterClosed()
+      .subscribe((status: boolean) => {
+        debugger
+        console.log("Status");
+        console.log(status)
+        if (status === true) {
+          this.newGame();
+        }
+      })
+      // .unsubscribe();
+  }
 
   // checkWinner() {
   //   this.gameService.checkWinner()
@@ -59,6 +104,10 @@ export class GameViewComponent implements OnInit, OnDestroy {
   // }
   // resetGame() {
   //
+  // }
+
+  // openDialog() {
+  //   this.dialog.open(OpenDialogComponent);
   // }
 
   ngOnInit(): void {
