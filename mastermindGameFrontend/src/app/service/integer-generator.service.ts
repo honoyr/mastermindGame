@@ -28,8 +28,6 @@ export class IntegerGeneratorService {
   getNumbers(gameSettings: GameSettingsDto): Observable<any> {
     const baseUrl = IntegerGeneratorService.BASE_URL;
     const settingsUrl = IntegerGeneratorService.parseToString(gameSettings);
-
-    console.log(`${environment.api.host}${settingsUrl}${baseUrl}`);
     // @ts-ignore
     return this.http.get<ArrayBuffer>(`${environment.api.host}${settingsUrl}${baseUrl}`, {responseType: 'text'})
       .pipe(

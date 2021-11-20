@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Status} from "../model/Status";
 import {GameSettingsDto} from "../model/GameSettings";
-import {Messages} from "../model/Messages";
-import {DialogData} from "../components/open-dialog/open-dialog.component";
+import {MatDialogData} from "../model/MatDialogData";
+import {GameStateDto} from "../model/Game";
+import {DialogData, MessageService} from "./message.service";
+import {MessageEnumId} from "../model/MessageEnumId";
 
 export interface Feedback {
   status: Status,
@@ -16,17 +18,16 @@ export interface Attempt {
 
 @Injectable()
 export class GameService {
-  private _randomNumbers:   Array<number> = [];
-  private _guessNumbers:    Array<number> = [];
-  private _attempts:        Array<Attempt> = [];
+  private _randomNumbers:     Array<number> = [];
+  private _guessNumbers:      Array<number> = [];
+  private _attempts:          Array<Attempt> = [];
 
-  private _gameSettings!:   GameSettingsDto;
-  private _gameStatus:      boolean = true;
-  private _turn:            number = 0;
-  private _message!:         Messages;
+  private _attemptsCounter:  number = 0;
+  private _gameSettings!:     GameSettingsDto;
+  private _gameStatus:        boolean = true;
+  private _content!:          MatDialogData;
 
-
-  constructor() {
+  constructor(public messageService: MessageService) {
   }
 
   get randomNumbers(): Array<number> {
@@ -37,10 +38,6 @@ export class GameService {
     return this._gameStatus;
   }
 
-  // get winnerStatus(): boolean {
-  //   return this._winnerStatus;
-  // }
-
   get attempts(): Array<Attempt> {
     return this._attempts;
   }
@@ -49,36 +46,42 @@ export class GameService {
     return this._guessNumbers;
   }
 
-  get turn(): number {
-    return this._turn;
+  get attemptsCounter(): number {
+    return this._attemptsCounter;
   }
 
   get gameSettings(): GameSettingsDto {
     return this._gameSettings;
   }
 
+  getMockAttempt() : Attempt {
+    console.log("numberOfAttempts allowed = " + this._gameSettings.requestedNumbers)
+    const guessNumbers = new Array<number>(this._gameSettings.requestedNumbers).fill(-2)
+    const feedbacks: Feedback[] = this.createFeedbacks(guessNumbers);
+    const mockAttempt: Attempt = {
+      guessNumbers: guessNumbers,
+      feedbacks: feedbacks,
+    }
+    return mockAttempt;
+  }
 
   /**
    * Create player's attempt with feedbacks.
    */
-  createAttempt(guessNumbers: Array<number>) {
+  createAttempt(guessNumbers: Array<number>) : void {
     const feedbacks: Feedback[] = this.createFeedbacks(guessNumbers);
     const attempt: Attempt = {
       guessNumbers: guessNumbers,
       feedbacks: feedbacks,
     }
-    this.addAttemptToStack(attempt);
-  }
-
-  addAttemptToStack(attempt: Attempt) {
+    this._attemptsCounter++;
     this._attempts.push(attempt);
   }
-
 
   /**
   * Return feedbacks for guessed numbers.
   */
-  private createFeedbacks(guessNumbers: Array<number>) {
+  private createFeedbacks(guessNumbers: Array<number>) : Feedback[] {
     let feedbacks: Feedback[] = [];
     const guessNumbersCopy: Array<number> = guessNumbers.map(number => number);
     const randomNumbersCopy: Array<number> = this._randomNumbers.map(number => number);
@@ -102,11 +105,11 @@ export class GameService {
   /**
   * Return feedback for a guessed number.
   */
-  private createFeedback(guessNumbers: number, position: number, randomNumbers: number[]) {
+  private createFeedback(guessNumbers: number, position: number, randomNumbers: number[]) : Feedback {
+    let status: Status;
     const feedback: Feedback = {
       status: Status.none
     }
-    let status: Status;
 
     if(guessNumbers === randomNumbers[position]){
       status = Status.correctLocationAndNumber;
@@ -127,72 +130,66 @@ export class GameService {
    * @param randomNumbers
    * @private
    */
-  private preventDuplicates (guessNumber: number, randomNumbers: number[]) {
+  private preventDuplicates (guessNumber: number, randomNumbers: number[]) : void {
     const indexOfGuessNumber = randomNumbers.indexOf(guessNumber);
     randomNumbers[indexOfGuessNumber] = Status.none;
   }
 
-  hasGameEnded() {
+
+  hasGameEnded() : boolean {
     if (this.isNumberOfAttemptsFull()){
-      this._message = Messages.attemptsFull;
+      this._content = MatDialogData.attemptsFull;
       this._gameStatus = false;
       return true;
     } else if (this.isPositiveFeedback(this._attempts[this._attempts.length - 1])) {
-      this._message = Messages.playerWon;
+      this._content = MatDialogData.playerWon;
       this._gameStatus = false;
       return true
     }
     return false;
   }
 
-  getMessage() {
-    return this._message;
-  }
-
-  getDialogMessage() {
-    if(this._message) {
-      const dialogMessage: DialogData = {
-        title: Messages.titleWinner,
-        content: this._message,
-        other: `Game was finished on ${this._attempts.length}th attempt.`
-      };
-      return dialogMessage;
-    }
-    return ;
+  getDialogMessage(messageId: MessageEnumId): DialogData {
+    return this.messageService.getGameMessage(messageId, this.getGameState());
   }
 
 
-  isNumberOfAttemptsFull() {
+  isNumberOfAttemptsFull() : boolean {
     return this._attempts.length === this._gameSettings.numberOfAttempts;
   }
 
-  isPositiveFeedback(attempt: Attempt) {
+  isPositiveFeedback(attempt: Attempt) : boolean {
     return attempt.feedbacks.every(feedback => {
       return feedback.status === Status.correctLocationAndNumber
     });
   }
 
-  // changeGameSettings(level) {
-  //
-  // }
 
-
-  setSettings(gameSettings: GameSettingsDto, randomNumbers: Array<number>) {
+  setSettings(gameSettings: GameSettingsDto, randomNumbers: Array<number>) : void {
     this._gameSettings = gameSettings;
-    // this.getRandomNumbers();
-
     this._randomNumbers = randomNumbers;
-    console.log("in game random number" + this._randomNumbers);
     this._gameStatus = true;
     this._attempts = [];
-    this._turn = 0;
+    this._attemptsCounter = 0;
   }
 
-
-  resetGame() {
+  resetGame() : void {
+    this._randomNumbers = [];
+    this._gameStatus = true;
     this._attempts = [];
+    this._attemptsCounter = 0;
   }
 
-
+  getGameState() : GameStateDto {
+    const gameState: GameStateDto = {
+      gameSettings: this._gameSettings,
+      randomNumbers: this._randomNumbers,
+      gameStatus: this._gameStatus,
+      attempts: this._attempts,
+      numberOfAttempts: this._attemptsCounter,
+      content: this._content
+    }
+    return gameState
+  }
 
 }

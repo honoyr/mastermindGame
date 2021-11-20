@@ -16,11 +16,17 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "ru": "src/i18n/messages.ru.xlf"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mastermindGameFrontend",
+            "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -37,6 +43,9 @@
             "scripts": []
           },
           "configurations": {
+            "ru": {
+              "localize": ["ru"]
+            },
             "production": {
               "budgets": [
                 {
@@ -74,6 +83,9 @@
           "configurations": {
             "production": {
               "browserTarget": "mastermindGameFrontend:build:production"
+            },
+            "ru": {
+              "browserTarget": "mastermindGameFrontend:build:ru"
             },
             "development": {
               "browserTarget": "mastermindGameFrontend:build:development"

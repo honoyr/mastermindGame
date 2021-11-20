@@ -1,12 +1,12 @@
 <div class="container">
-  <h1>Mastermind Game</h1>
+  <h1 i18n="main header | Game name">Mastermind Game</h1>
 </div>
 
 <div class="container">
   <div class="card">
-    <button class="btn" (click)="changeSettings(0)">Easy</button>
-    <button class="btn" (click)="changeSettings(1)">Medium</button>
-    <button class="btn" (click)="changeSettings(2)">Hard</button>
+    <button i18n="settings button | Level: easy" class="btn" (click)="changeSettings(0)">Easy</button>
+    <button i18n="settings button | Level: medium" class="btn" (click)="changeSettings(1)">Medium</button>
+    <button i18n="settings button | Level: hard" class="btn" (click)="changeSettings(2)">Hard</button>
   </div>
 </div>
 
@@ -22,6 +22,6 @@
 
 <div class="container">
   <div class="card">
-    <button class="btn" (click)="newGame()">New Game</button>
+    <button i18n="Game button | New Game" class="btn" (click)="newGame()">New Game</button>
   </div>
 </div>

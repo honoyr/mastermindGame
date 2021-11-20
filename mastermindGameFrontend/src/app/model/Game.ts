@@ -1,5 +1,6 @@
 import {GameSettingsDto} from "./GameSettings";
 import {Attempt} from "../service/game.service";
+import {MatDialogData} from "./MatDialogData";
 
 export class GameModel {
 
@@ -24,8 +25,11 @@ export class GameModel {
 
 }
 
-export interface GameModelDto {
-  winnerStatus: boolean;
-  winner: string;
-
+export interface GameStateDto {
+  randomNumbers:    Array<number>,
+  attempts:         Array<Attempt>,
+  numberOfAttempts: number,
+  gameSettings:     GameSettingsDto,
+  gameStatus:       boolean,
+  content:          MatDialogData
 }

@@ -1,11 +1,7 @@
 import {Component, Inject, inject, OnInit} from '@angular/core';
 import {MatDialog, MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {DialogData} from "../../service/message.service";
 
-export interface DialogData {
-  title: string;
-  content: string;
-  other: string;
-}
 
 @Component({
   selector: 'app-open-dialog',

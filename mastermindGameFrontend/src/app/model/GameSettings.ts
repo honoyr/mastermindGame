@@ -17,7 +17,7 @@ export enum Settings {
 
   EASY_NUMBER_OF_ATTEMPTS = 15,
   MEDIUM_NUMBER_OF_ATTEMPTS = 10,
-  HARD_NUMBER_OF_ATTEMPTS = 5
+  HARD_NUMBER_OF_ATTEMPTS = 5,
 }
 
 export class GameSettings {

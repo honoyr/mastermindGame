@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="5228972625259670086" datatype="html">
+        <source>Attempts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/attempts-list/attempts-list.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description"> attempts</note>
+        <note priority="1" from="meaning">Attempt header </note>
+      </trans-unit>
+      <trans-unit id="3544941943457626007" datatype="html">
+        <source>Mastermind Game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/game-view/game-view.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description"> Game name</note>
+        <note priority="1" from="meaning">main header </note>
+      </trans-unit>
+      <trans-unit id="4055913055734083048" datatype="html">
+        <source>Easy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/game-view/game-view.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <note priority="1" from="description"> Level: easy</note>
+        <note priority="1" from="meaning">settings button </note>
+      </trans-unit>
+      <trans-unit id="9170010341056642526" datatype="html">
+        <source>Medium</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/game-view/game-view.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description"> Level: medium</note>
+        <note priority="1" from="meaning">settings button </note>
+      </trans-unit>
+      <trans-unit id="214337139478072706" datatype="html">
+        <source>Hard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/game-view/game-view.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <note priority="1" from="description"> Level: hard</note>
+        <note priority="1" from="meaning">settings button </note>
+      </trans-unit>
+      <trans-unit id="3760263284054439420" datatype="html">
+        <source>New Game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/game-view/game-view.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <note priority="1" from="description"> New Game</note>
+        <note priority="1" from="meaning">Game button </note>
+      </trans-unit>
+      <trans-unit id="1895649336942505910" datatype="html">
+        <source>Your guess</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/input-form/input-form.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description"> label</note>
+        <note priority="1" from="meaning">Input label </note>
+      </trans-unit>
+      <trans-unit id="5562185083805640968" datatype="html">
+        <source> Type <x id="INTERPOLATION" equiv-text="{{maxLen}}"/> positive numbers between <x id="INTERPOLATION_1" equiv-text="{{min}}"/> - <x id="INTERPOLATION_2" equiv-text="{{max}}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/input-form/input-form.component.html</context>
+          <context context-type="linenumber">11,13</context>
+        </context-group>
+        <note priority="1" from="description"> Errors from form validators</note>
+        <note priority="1" from="meaning">Error message </note>
+      </trans-unit>
+      <trans-unit id="8768120635898184981" datatype="html">
+        <source>Check</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/input-form/input-form.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="description"> Check attempt</note>
+        <note priority="1" from="meaning">Check button </note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
