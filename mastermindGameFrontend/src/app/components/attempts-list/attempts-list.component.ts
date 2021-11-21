@@ -12,7 +12,10 @@ export class AttemptsListComponent implements OnInit {
   attempts$!: Array<Attempt>;
 
   @Input()
-  mockAttempt$!: Attempt
+  mockAttempt$!: Attempt;
+
+  @Input()
+  loading!: boolean;
 
   constructor() { }
 

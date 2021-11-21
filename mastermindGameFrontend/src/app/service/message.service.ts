@@ -96,7 +96,7 @@ export class MessageService {
       case MessageEnumId.changeSettings:
         return MatDialogData.buttonApply;
       default:
-        return "Missing content";
+        return "Apply";
     }
   }
 
@@ -108,7 +108,6 @@ export class MessageService {
       other: this.createOther(messageId, gameState),
       button: this.createButton(messageId)
     }
-    console.log(message);
     return message;
   }
 

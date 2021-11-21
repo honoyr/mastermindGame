@@ -13,6 +13,7 @@
 <app-attempts-list
   [attempts$]="gameService.attempts"
   [mockAttempt$]="mockAttempt$"
+  [loading]="loading"
 ></app-attempts-list>
 <app-input-form
   [gameSettings$]="gameSettingsDto"

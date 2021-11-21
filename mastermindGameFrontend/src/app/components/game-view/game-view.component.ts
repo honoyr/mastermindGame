@@ -56,9 +56,9 @@ export class GameViewComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
     this.dialogRefSubscription = dialogRef.afterClosed()
       .subscribe((status: boolean) => {
-        console.log("Settings Status")
-        console.log(status);
-        if (status === true) {
+        // console.log("Settings Status")
+        // console.log(status);
+        if (status) {
           this.gameSettingsDto = this.gameSettings.changeSettings(level);
           this.newGame();
         }
@@ -80,7 +80,6 @@ export class GameViewComponent implements OnInit, OnDestroy {
     if (this.dialogRefSubscription){
       this.dialogRefSubscription.unsubscribe();
     }
-    // @ts-ignore
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
     this.dialogRefSubscription = dialogRef.afterClosed()
       .subscribe((status: boolean) => {
@@ -91,13 +90,13 @@ export class GameViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.gameSettings);
+    // console.log(this.gameSettings);
     this.newGame();
-
   }
 
   ngOnDestroy(): void {
     this.gameService.resetGame();
+    this.dialogRefSubscription.unsubscribe();
     this.randomNumbersSubscription.unsubscribe();
   }
 
