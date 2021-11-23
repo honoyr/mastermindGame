@@ -19,7 +19,6 @@ import {MaterialModule} from "../material.module";
 import { InputFormNumberComponent } from './components/input-form-number/input-form-number.component';
 import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from "@angular/material/core";
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +41,6 @@ import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from "@angular/material
     ReactiveFormsModule,
     MaterialModule,
     BrowserAnimationsModule,
-
   ],
   providers: [{provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}],
   bootstrap: [AppComponent]

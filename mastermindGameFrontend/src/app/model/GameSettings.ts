@@ -70,7 +70,7 @@ export class GameSettings {
     }
   }
 
-  getSettings() {
+  getSettings() :GameSettingsDto {
     const settings: GameSettingsDto = {
       level: this.level,
       requestedNumbers: this.requestedNumbers,

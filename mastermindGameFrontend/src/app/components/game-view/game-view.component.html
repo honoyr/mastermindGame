@@ -11,21 +11,15 @@
 </div>
 
 <app-attempts-list
-  [attempts$]="gameService.attempts"
-  [mockAttempt$]="mockAttempt$"
+  [attempts$]="gameModel.attempts"
+  [mockAttempt$]="gameModel.mockAttempt"
   [loading]="loading"
 ></app-attempts-list>
 <app-input-form
-  [gameSettings$]="gameSettingsDto"
-  [gameStatus$]="gameService.gameStatus"
+  [gameSettings$]="this.gameModel.gameSettings"
+  [gameStatus$]="gameModel.gameStatus"
   (attemptEventEmitter)="createAttemptAndCheckWinner($event)"
 ></app-input-form>
-<!--<app-input-form-number-->
-<!--  [gameSettings$]="gameSettingsDto"-->
-<!--  [gameStatus$]="this.gameService.gameStatus"-->
-<!--  (attemptEventEmitter)="createAttemptAndCheckWinner($event)"-->
-<!--&gt;-->
-<!--</app-input-form-number>-->
 <div class="container">
   <div class="card">
     <button i18n="Game button | New Game" class="btn" (click)="newGame()">New Game</button>

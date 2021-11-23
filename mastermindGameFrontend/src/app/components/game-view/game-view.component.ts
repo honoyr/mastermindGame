@@ -7,7 +7,8 @@ import {GameSettings, GameSettingsDto} from "../../model/GameSettings";
 import {Attempt, GameService} from "../../service/game.service";
 import {OpenDialogComponent} from "../open-dialog/open-dialog.component";
 import {MessageEnumId} from "../../model/MessageEnumId";
-import {DialogData} from "../../service/message.service";
+import {DialogData, MessageService} from "../../service/message.service";
+import {GameModel} from "../../model/Game";
 
 @Component({
   selector: 'app-game-view',
@@ -17,68 +18,58 @@ import {DialogData} from "../../service/message.service";
 })
 export class GameViewComponent implements OnInit, OnDestroy {
 
-  mockAttempt$!: Attempt;
-
-  gameSettingsDto!: GameSettingsDto;
-  gameSettings = new GameSettings()
+  gameSettings: GameSettings  = new GameSettings()
+  gameModel:    GameModel     = new GameModel();
   error: any;
   loading: boolean = false;
   randomNumbersSubscription!: Subscription;
-  dialogRefSubscription!: Subscription;
-  private message: string = '';
+  dialogRefSubscription!:     Subscription;
 
   constructor(public dialog: MatDialog,
               public gameService: GameService,
+              public messageService: MessageService,
               public integerGeneratorService: IntegerGeneratorService) {
-    this.gameSettingsDto = this.gameSettings.changeSettings(Levels.medium);
+    this.gameModel.gameSettings = this.gameSettings.changeSettings(Levels.medium);
   }
 
-  newGame() {
+  newGame() : void {
     this.loading = true;
-    this.randomNumbersSubscription = this.integerGeneratorService.getNumbers(this.gameSettingsDto)
+    this.gameService.resetGame(this.gameModel);
+    this.randomNumbersSubscription = this.integerGeneratorService.getNumbers(this.gameModel.gameSettings)
       .subscribe(randomNumbers => {
-        this.gameService.setSettings(this.gameSettingsDto, randomNumbers);
-        this.mockAttempt$ = this.gameService.getMockAttempt();
+        this.gameModel.randomNumbers = randomNumbers;
+        this.gameModel.mockAttempt = this.gameService.getMockAttempt(this.gameModel);
         this.loading = false;
       }, error => this.error = error)
-    this.gameService.resetGame();
   }
 
-  changeSettings(level: Levels) {
-    const data: DialogData = this.gameService.getDialogMessage(MessageEnumId.changeSettings)
-
-    // if (this.dialogRefSubscription){
-    //   this.dialogRefSubscription.unsubscribe();
-    // }
+  changeSettings(level: Levels) : void {
+    const data: DialogData = this.messageService.getGameMessage(MessageEnumId.changeSettings, this.gameModel);
 
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
     this.dialogRefSubscription = dialogRef.afterClosed()
       .subscribe((status: boolean) => {
-        // console.log("Settings Status")
-        // console.log(status);
         if (status) {
-          this.gameSettingsDto = this.gameSettings.changeSettings(level);
+          this.gameModel.gameSettings = this.gameSettings.changeSettings(level);
           this.newGame();
         }
       })
   }
 
-  createAttemptAndCheckWinner(guessNumberEventEmitter: any) {
+  createAttemptAndCheckWinner(guessNumberEventEmitter: any) : void {
     console.log(guessNumberEventEmitter);
-    if (this.gameService.gameStatus) {
-      this.gameService.createAttempt(guessNumberEventEmitter);
+    if (this.gameModel.gameStatus) {
+      const attempt: Attempt = this.gameService.createAttempt(guessNumberEventEmitter, this.gameModel.randomNumbers)
+      this.gameModel.attempts.push(attempt);
+      this.gameModel.attemptsCounter++;
     }
-    if (this.gameService.hasGameEnded()) {
+    if (this.gameService.hasGameEnded(this.gameModel)) {
       this.openDialogWinnerMessage();
     }
   }
 
-  openDialogWinnerMessage() {
-    const data = this.gameService.getDialogMessage(MessageEnumId.winner);
-
-    // if (this.dialogRefSubscription){
-    //   this.dialogRefSubscription.unsubscribe();
-    // }
+  openDialogWinnerMessage() : void {
+    const data: DialogData = this.messageService.getGameMessage(MessageEnumId.winner, this.gameModel);
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
     this.dialogRefSubscription = dialogRef.afterClosed()
       .subscribe((status: boolean) => {
@@ -89,15 +80,12 @@ export class GameViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // console.log(this.gameSettings);
     this.newGame();
   }
 
   ngOnDestroy(): void {
-    this.gameService.resetGame();
+    this.gameService.resetGame(this.gameModel);
     this.dialogRefSubscription.unsubscribe();
     this.randomNumbersSubscription.unsubscribe();
   }
-
-
 }

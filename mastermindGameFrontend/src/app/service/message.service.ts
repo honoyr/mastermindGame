@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MessageEnumId} from "../model/MessageEnumId";
 import {MatDialogData} from "../model/MatDialogData";
-import {GameStateDto} from "../model/Game";
+import {GameModel} from "../model/Game";
 
 export interface DialogData {
   title: string;
@@ -66,10 +66,10 @@ export class MessageService {
     }
   }
 
-  createContent(messageId: MessageEnumId, gameState: GameStateDto) {
+  createContent(messageId: MessageEnumId, gameModel: GameModel) {
     switch (messageId){
       case MessageEnumId.winner:
-        return gameState.content;
+        return gameModel.content;
       case MessageEnumId.changeSettings:
         return MatDialogData.changeSettings;
       default:
@@ -77,12 +77,10 @@ export class MessageService {
     }
   }
 
-  createOther(messageId: MessageEnumId, gameState: GameStateDto) {
+  createOther(messageId: MessageEnumId, gameModel: GameModel) {
     switch (messageId){
       case MessageEnumId.winner:
-        return `Game was finished on ${gameState.numberOfAttempts}th attempt.`;
-      case MessageEnumId.winner:
-        return `Game was finished on ${gameState.numberOfAttempts}th attempt.`;
+        return `Game was finished on ${gameModel.attemptsCounter}th attempt.`;
       default:
         return "";
     }
@@ -92,21 +90,19 @@ export class MessageService {
     switch (messageId){
       case MessageEnumId.winner:
         return MatDialogData.buttonTryAgain;;
-      case MessageEnumId.winner:
-        return MatDialogData.buttonTryAgain;
       case MessageEnumId.changeSettings:
         return MatDialogData.buttonApply;
       default:
-        return "Apply";
+        return "OK";
     }
   }
 
-  getGameMessage(messageId: MessageEnumId, gameState: GameStateDto){
-    console.log(gameState);
+  getGameMessage(messageId: MessageEnumId, gameModel: GameModel){
+    console.log(gameModel);
     const message: DialogData = {
       title: this.createTitle(messageId),
-      content: this.createContent(messageId, gameState),
-      other: this.createOther(messageId, gameState),
+      content: this.createContent(messageId, gameModel),
+      other: this.createOther(messageId, gameModel),
       button: this.createButton(messageId)
     }
     return message;
