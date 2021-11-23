@@ -25,19 +25,10 @@
           </mat-error>
         </li>
       </ul>
-<!--      <mat-error *ngIf="guessControl.hasError('maxLength')">-->
-<!--        Longitude must have <strong>a max of {{num}} decimal numbers.</strong>-->
-<!--      </mat-error>-->
-<!--      <mat-error *ngIf="guessControl.hasError('minLength')">-->
-<!--        Longitude must have <strong>a min of {{num}} decimal numbers.</strong>-->
-<!--      </mat-error>-->
-<!--      <mat-error *ngIf="guessControl.hasError('range')">-->
-<!--        The range have to be in <strong>{{min}} - {{max}}.</strong>-->
-<!--      </mat-error>-->
     </div>
     <button
       i18n="Check button | Check attempt"
-      class="btn" type="submit" [disabled]="!formGroup.valid" >Check
+      class="btn" type="submit" [disabled]="!formGroup.valid || !guessControl.value" >Check
     </button>
   </form>
 </div>

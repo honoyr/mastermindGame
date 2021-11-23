@@ -9,8 +9,6 @@ import {OpenDialogComponent} from "../open-dialog/open-dialog.component";
 import {MessageEnumId} from "../../model/MessageEnumId";
 import {DialogData} from "../../service/message.service";
 
-// import {controlNameBinding} from "@angular/forms";
-
 @Component({
   selector: 'app-game-view',
   templateUrl: './game-view.component.html',
