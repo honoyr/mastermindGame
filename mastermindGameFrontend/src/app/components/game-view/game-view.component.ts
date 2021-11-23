@@ -23,7 +23,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
 
   gameSettingsDto!: GameSettingsDto;
   gameSettings = new GameSettings()
-  error:any;
+  error: any;
   loading: boolean = false;
   randomNumbersSubscription!: Subscription;
   dialogRefSubscription!: Subscription;
@@ -39,19 +39,19 @@ export class GameViewComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.randomNumbersSubscription = this.integerGeneratorService.getNumbers(this.gameSettingsDto)
       .subscribe(randomNumbers => {
-      this.gameService.setSettings(this.gameSettingsDto, randomNumbers);
-      this.mockAttempt$ = this.gameService.getMockAttempt();
-      this.loading = false;
-    }, error => this.error = error)
+        this.gameService.setSettings(this.gameSettingsDto, randomNumbers);
+        this.mockAttempt$ = this.gameService.getMockAttempt();
+        this.loading = false;
+      }, error => this.error = error)
     this.gameService.resetGame();
   }
 
-  changeSettings(level:Levels) {
+  changeSettings(level: Levels) {
     const data: DialogData = this.gameService.getDialogMessage(MessageEnumId.changeSettings)
 
-    if (this.dialogRefSubscription){
-      this.dialogRefSubscription.unsubscribe();
-    }
+    // if (this.dialogRefSubscription){
+    //   this.dialogRefSubscription.unsubscribe();
+    // }
 
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
     this.dialogRefSubscription = dialogRef.afterClosed()
@@ -65,25 +65,26 @@ export class GameViewComponent implements OnInit, OnDestroy {
       })
   }
 
-  createAttemptAndCheckWinner (guessNumberEventEmitter: any) {
-    if(this.gameService.gameStatus){
+  createAttemptAndCheckWinner(guessNumberEventEmitter: any) {
+    console.log(guessNumberEventEmitter);
+    if (this.gameService.gameStatus) {
       this.gameService.createAttempt(guessNumberEventEmitter);
     }
     if (this.gameService.hasGameEnded()) {
-        this.openDialogWinnerMessage();
+      this.openDialogWinnerMessage();
     }
   }
 
   openDialogWinnerMessage() {
     const data = this.gameService.getDialogMessage(MessageEnumId.winner);
 
-    if (this.dialogRefSubscription){
-      this.dialogRefSubscription.unsubscribe();
-    }
+    // if (this.dialogRefSubscription){
+    //   this.dialogRefSubscription.unsubscribe();
+    // }
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
     this.dialogRefSubscription = dialogRef.afterClosed()
       .subscribe((status: boolean) => {
-        if (status === true) {
+        if (status) {
           this.newGame();
         }
       })

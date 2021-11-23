@@ -16,6 +16,8 @@ import { FeedbackCardComponent } from './components/feedback-card/feedback-card.
 import { OpenDialogComponent } from './components/open-dialog/open-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from "../material.module";
+import { InputFormNumberComponent } from './components/input-form-number/input-form-number.component';
+import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from "@angular/material/core";
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import {MaterialModule} from "../material.module";
     AttemptCardComponent,
     FeedbackCardComponent,
     OpenDialogComponent,
+    InputFormNumberComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,8 +42,9 @@ import {MaterialModule} from "../material.module";
     ReactiveFormsModule,
     MaterialModule,
     BrowserAnimationsModule,
+
   ],
-  providers: [],
+  providers: [{provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -55,6 +55,7 @@ export class MessageService {
   }
 
   createTitle(messageId: MessageEnumId) {
+
     switch (messageId){
       case MessageEnumId.winner:
         return MatDialogData.titleWinner;

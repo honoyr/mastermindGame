@@ -1,21 +1,32 @@
-import {Component, EventEmitter, forwardRef, Input, OnChanges, OnInit, Output, Provider, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {GameSettingsDto, Settings} from "../../model/GameSettings";
 import {
   AbstractControl,
-  ControlValueAccessor,
   FormControl,
   FormGroup,
-  NG_VALUE_ACCESSOR,
-  ValidationErrors, ValidatorFn,
+  FormGroupDirective,
+  NgForm,
+  ValidationErrors,
+  ValidatorFn,
   Validators
 } from "@angular/forms";
-import {GameSettingsDto, Settings} from "../../model/GameSettings";
+import {ErrorStateMatcher} from "@angular/material/core";
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
-  selector: 'app-input-form',
-  templateUrl: './input-form.component.html',
-  styleUrls: ['./input-form.component.scss']
+  selector: 'app-input-form-number',
+  templateUrl: './input-form-number.component.html',
+  styleUrls: ['./input-form-number.component.scss']
 })
-export class InputFormComponent implements OnInit, OnChanges {
+export class InputFormNumberComponent implements OnInit, OnChanges {
+
+  matcher = new MyErrorStateMatcher();
 
   @Input()
   gameSettings$!: GameSettingsDto;
@@ -99,4 +110,7 @@ export class InputFormComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
   }
+
 }
+
+

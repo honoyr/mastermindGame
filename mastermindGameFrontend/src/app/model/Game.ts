@@ -4,24 +4,23 @@ import {MatDialogData} from "./MatDialogData";
 
 export class GameModel {
 
-  gameSettings!: GameSettingsDto;
-  randomNumbers!: Array<number>;
-  attempts!: Attempt[];
-  attempt!: Attempt;
-  mockAttempt$!: Attempt;
+  private randomNumbers:     Array<number> = [];
+  private guessNumbers:      Array<number> = [];
+  private attempts:          Array<Attempt> = [];
 
-  winnerStatus!: boolean;
-  winner!: string;
-  turns!: number;
+  private attemptsCounter:  number = 0;
+  private gameSettings!:     GameSettingsDto;
+  private gameStatus:        boolean = true;
+  private content!:          MatDialogData;
 
   resetGameModel() {
-    // this.gameSettings = []
-    this.randomNumbers = []
-    this.attempts = []
-
-    this.winnerStatus = false;
-    this.turns = 0;
+    this.randomNumbers = [];
+    this.gameStatus = true;
+    this.attempts = [];
+    this.attemptsCounter = 0;
   }
+
+
 
 }
 
