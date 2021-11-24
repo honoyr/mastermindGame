@@ -3,8 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {map} from 'rxjs/operators';
 import {environment} from "../../environments/environment";
-import {GameSettings, GameSettingsDto} from "../model/GameSettings";
-
+import {GameSettingsDto} from "../model/GameSettings";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +24,7 @@ export class IntegerGeneratorService {
                                        `&rnd=${IntegerGeneratorService.RND}`
 
 
-  getNumbers(gameSettings: GameSettingsDto): Observable<any> {
+  public getNumbers(gameSettings: GameSettingsDto): Observable<number[]> {
     const baseUrl = IntegerGeneratorService.BASE_URL;
     const settingsUrl = IntegerGeneratorService.parseToString(gameSettings);
     // @ts-ignore
@@ -35,7 +34,6 @@ export class IntegerGeneratorService {
           return throwError(error);
         }),
         map(data => {
-          console.log(data)
           return data ? IntegerGeneratorService.parseNumber(data) : []
         })
       )

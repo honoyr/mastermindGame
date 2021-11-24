@@ -3,13 +3,12 @@ import {Attempt} from "../service/game.service";
 import {MatDialogData} from "./MatDialogData";
 
 export class GameModel {
-
   private _randomNumbers:    Array<number> = [];
   private _guessNumbers:     Array<number> = [];
   private _attempts:         Array<Attempt> = [];
   private _mockAttempt!:      Attempt;
 
-  private _attemptsCounter:  number = 0;
+  private _attemptCounter:  number = 0;
   private _gameSettings!:    GameSettingsDto;
   private _gameStatus:       boolean = true;
   private _content!:         MatDialogData;
@@ -38,12 +37,12 @@ export class GameModel {
     this._attempts = value;
   }
 
-  get attemptsCounter(): number {
-    return this._attemptsCounter;
+  get attemptCounter(): number {
+    return this._attemptCounter;
   }
 
-  set attemptsCounter(value: number) {
-    this._attemptsCounter = value;
+  set attemptCounter(value: number) {
+    this._attemptCounter = value;
   }
 
   get gameSettings(): GameSettingsDto {
@@ -84,18 +83,11 @@ export class GameModel {
       randomNumbers: this._randomNumbers,
       gameStatus: this._gameStatus,
       attempts: this._attempts,
-      numberOfAttempts: this._attemptsCounter,
+      numberOfAttempts: this._attemptCounter,
       content: this._content
     }
     return gameState
   }
-
-}
-
-
-
-export interface GameModel {
-
 }
 
 export interface GameStateDto {

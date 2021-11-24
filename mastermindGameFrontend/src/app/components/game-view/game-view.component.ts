@@ -3,12 +3,12 @@ import {MatDialog} from '@angular/material/dialog';
 import {Subscription,} from "rxjs";
 import {IntegerGeneratorService} from "../../service/integer-generator.service";
 import {Levels} from "../../model/Levels"
-import {GameSettings, GameSettingsDto} from "../../model/GameSettings";
 import {Attempt, GameService} from "../../service/game.service";
 import {OpenDialogComponent} from "../open-dialog/open-dialog.component";
 import {MessageEnumId} from "../../model/MessageEnumId";
 import {DialogData, MessageService} from "../../service/message.service";
 import {GameModel} from "../../model/Game";
+import {GameSettingsService} from "../../service/game-settings.service";
 
 @Component({
   selector: 'app-game-view',
@@ -18,32 +18,32 @@ import {GameModel} from "../../model/Game";
 })
 export class GameViewComponent implements OnInit, OnDestroy {
 
-  gameSettings: GameSettings  = new GameSettings()
-  gameModel:    GameModel     = new GameModel();
+  gameModel: GameModel = new GameModel();
   error: any;
   loading: boolean = false;
   randomNumbersSubscription!: Subscription;
-  dialogRefSubscription!:     Subscription;
+  dialogRefSubscription!: Subscription;
 
-  constructor(public dialog: MatDialog,
-              public gameService: GameService,
-              public messageService: MessageService,
-              public integerGeneratorService: IntegerGeneratorService) {
+  constructor(private dialog: MatDialog,
+              private messageService: MessageService,
+              private gameSettings: GameSettingsService,
+              private integerGeneratorService: IntegerGeneratorService) {
     this.gameModel.gameSettings = this.gameSettings.changeSettings(Levels.medium);
   }
 
-  newGame() : void {
+  newGame(): void {
     this.loading = true;
-    this.gameService.resetGame(this.gameModel);
+    GameService.resetGame(this.gameModel);
     this.randomNumbersSubscription = this.integerGeneratorService.getNumbers(this.gameModel.gameSettings)
       .subscribe(randomNumbers => {
         this.gameModel.randomNumbers = randomNumbers;
-        this.gameModel.mockAttempt = this.gameService.getMockAttempt(this.gameModel);
+        this.createMockAttempt();
         this.loading = false;
+        console.log(this.gameModel.randomNumbers); // DEL
       }, error => this.error = error)
   }
 
-  changeSettings(level: Levels) : void {
+  changeSettings(level: Levels): void {
     const data: DialogData = this.messageService.getGameMessage(MessageEnumId.changeSettings, this.gameModel);
 
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
@@ -56,19 +56,18 @@ export class GameViewComponent implements OnInit, OnDestroy {
       })
   }
 
-  createAttemptAndCheckWinner(guessNumberEventEmitter: any) : void {
-    console.log(guessNumberEventEmitter);
+  createAttemptAndCheckWinner(guessNumberEventEmitter: any): void {
     if (this.gameModel.gameStatus) {
-      const attempt: Attempt = this.gameService.createAttempt(guessNumberEventEmitter, this.gameModel.randomNumbers)
+      const attempt: Attempt = GameService.createAttempt(guessNumberEventEmitter, this.gameModel.randomNumbers)
       this.gameModel.attempts.push(attempt);
-      this.gameModel.attemptsCounter++;
+      this.gameModel.attemptCounter++;
     }
-    if (this.gameService.hasGameEnded(this.gameModel)) {
+    if (GameService.hasGameEnded(this.gameModel)) {
       this.openDialogWinnerMessage();
     }
   }
 
-  openDialogWinnerMessage() : void {
+  openDialogWinnerMessage(): void {
     const data: DialogData = this.messageService.getGameMessage(MessageEnumId.winner, this.gameModel);
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
     this.dialogRefSubscription = dialogRef.afterClosed()
@@ -79,12 +78,19 @@ export class GameViewComponent implements OnInit, OnDestroy {
       })
   }
 
+  createMockAttempt() : void {
+    if(!this.gameModel.mockAttempt ||
+      this.gameModel.mockAttempt.guessNumbers.length !== this.gameModel.gameSettings.requestedNumbers) {
+      this.gameModel.mockAttempt = GameService.getMockAttempt(this.gameModel);
+    }
+  }
+
   ngOnInit(): void {
     this.newGame();
   }
 
   ngOnDestroy(): void {
-    this.gameService.resetGame(this.gameModel);
+    GameService.resetGame(this.gameModel);
     this.dialogRefSubscription.unsubscribe();
     this.randomNumbersSubscription.unsubscribe();
   }

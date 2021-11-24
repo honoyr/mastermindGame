@@ -3,5 +3,4 @@ export enum Status {
   incorrect = 0,
   correctNumber = 1,
   correctLocationAndNumber = 2,
-
 }

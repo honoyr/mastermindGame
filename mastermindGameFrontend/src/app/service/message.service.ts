@@ -14,48 +14,25 @@ export interface DialogData {
   providedIn: 'root'
 })
 export class MessageService {
+  ordinals: string[] = ['th','st','nd','rd'];
 
-  private _title!: string;
-  private _content!: string;
-  private _other!: string;
-  private _button!: string;
-
-  constructor() { }
-
-  get title(): string {
-    return this._title;
+  /**
+   * Append ordinal to number (e.g. "1st" position)
+   * Usage:
+   *   value | ordinal:keepNumber
+   * Example:
+   *   {{ 23 |  ordinal}}
+   *   formats to: '23rd'
+   * Example:
+   *   {{ 23 |  ordinal:false}}
+   *   formats to: 'rd'
+  */
+  private transformOrdinal(n: number, keepNumber: boolean = true) {
+    let v = n % 100;
+    return (this.ordinals[(v-20)%10]||this.ordinals[v]||this.ordinals[0]);
   }
 
-  set title(value: string) {
-    this._title = value;
-  }
-
-  get content(): string {
-    return this._content;
-  }
-
-  set content(value: string) {
-    this._content = value;
-  }
-
-  get other(): string {
-    return this._other;
-  }
-
-  set other(value: string) {
-    this._other = value;
-  }
-
-  get button(): string {
-    return this._button;
-  }
-
-  set button(value: string) {
-    this._button = value;
-  }
-
-  createTitle(messageId: MessageEnumId) {
-
+  private createTitle(messageId: MessageEnumId) {
     switch (messageId){
       case MessageEnumId.winner:
         return MatDialogData.titleWinner;
@@ -66,7 +43,7 @@ export class MessageService {
     }
   }
 
-  createContent(messageId: MessageEnumId, gameModel: GameModel) {
+  private createContent(messageId: MessageEnumId, gameModel: GameModel) {
     switch (messageId){
       case MessageEnumId.winner:
         return gameModel.content;
@@ -77,16 +54,17 @@ export class MessageService {
     }
   }
 
-  createOther(messageId: MessageEnumId, gameModel: GameModel) {
+  private createOther(messageId: MessageEnumId, gameModel: GameModel) {
+    const ordinal = this.transformOrdinal(gameModel.attemptCounter)
     switch (messageId){
       case MessageEnumId.winner:
-        return `Game was finished on ${gameModel.attemptsCounter}th attempt.`;
+        return `Game was finished on ${gameModel.attemptCounter}${ordinal} attempt.`;
       default:
         return "";
     }
   }
 
-  createButton (messageId: MessageEnumId) {
+  private createButton (messageId: MessageEnumId) {
     switch (messageId){
       case MessageEnumId.winner:
         return MatDialogData.buttonTryAgain;;
@@ -97,7 +75,7 @@ export class MessageService {
     }
   }
 
-  getGameMessage(messageId: MessageEnumId, gameModel: GameModel){
+  public getGameMessage(messageId: MessageEnumId, gameModel: GameModel) : DialogData {
     console.log(gameModel);
     const message: DialogData = {
       title: this.createTitle(messageId),
@@ -107,5 +85,4 @@ export class MessageService {
     }
     return message;
   }
-
 }

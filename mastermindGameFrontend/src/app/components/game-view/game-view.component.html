@@ -14,9 +14,10 @@
   [attempts$]="gameModel.attempts"
   [mockAttempt$]="gameModel.mockAttempt"
   [loading]="loading"
+  [attemptCounter]="gameModel.gameSettings.numberOfAttempts - gameModel.attemptCounter"
 ></app-attempts-list>
 <app-input-form
-  [gameSettings$]="this.gameModel.gameSettings"
+  [gameSettings$]="gameModel.gameSettings"
   [gameStatus$]="gameModel.gameStatus"
   (attemptEventEmitter)="createAttemptAndCheckWinner($event)"
 ></app-input-form>
