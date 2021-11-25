@@ -15,7 +15,7 @@ import {GameSettingsDto, Settings} from "../../model/GameSettings";
   templateUrl: './input-form.component.html',
   styleUrls: ['./input-form.component.scss']
 })
-export class InputFormComponent implements OnInit, OnChanges {
+export class InputFormComponent implements OnChanges {
 
   @Input()
   gameSettings$!: GameSettingsDto;
@@ -26,14 +26,14 @@ export class InputFormComponent implements OnInit, OnChanges {
   @Output()
   attemptEventEmitter: EventEmitter<Array<number>> = new EventEmitter<Array<number>>();
 
-  min:  string = Settings.MIN.toString();
-  max:  string = Settings.MEDIUM_MAX.toString();
-  num:  string = Settings.MEDIUM_NUM.toString();
+  min: string = Settings.MIN.toString();
+  max: string = Settings.MEDIUM_MAX.toString();
+  num: string = Settings.MEDIUM_NUM.toString();
 
-  private numbersOnlyRegExp:  RegExp  = new RegExp(`^[0-9]*$`);
-  private maxLengthRegExp:    RegExp  = new RegExp(`^.{0,${this.num}$`);
-  private minLengthRegExp:    RegExp  = new RegExp(`^.{${this.num}}$`);
-  private rangeRegExp:        RegExp  = new RegExp(`^[${this.min}-${this.max}]+$`);
+  private numbersOnlyRegExp: RegExp = new RegExp(`^[0-9]*$`);
+  private maxLengthRegExp: RegExp = new RegExp(`^.{0,${this.num}$`);
+  private minLengthRegExp: RegExp = new RegExp(`^.{${this.num}}$`);
+  private rangeRegExp: RegExp = new RegExp(`^[${this.min}-${this.max}]+$`);
 
   attempt!: Array<number>;
 
@@ -43,9 +43,10 @@ export class InputFormComponent implements OnInit, OnChanges {
     this.regexValidator(this.rangeRegExp, {'range': 'true'}),
     this.regexValidator(this.numbersOnlyRegExp, {'numbersOnly': 'hjhj'}),
   ]);
-  formGroup: FormGroup = new FormGroup({ guess: this.guessControl});
+  formGroup: FormGroup = new FormGroup({guess: this.guessControl});
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.min = this.gameSettings$.smallestValueReturned.toString();
@@ -55,13 +56,13 @@ export class InputFormComponent implements OnInit, OnChanges {
     this.initNewFormValidators();
   }
 
-  private updateRegExp() : void {
+  private updateRegExp(): void {
     this.maxLengthRegExp = new RegExp(`^.{0,${this.num}}$`);
     this.minLengthRegExp = new RegExp(`^.{${this.num},}$`);
-    this.rangeRegExp     = new RegExp(`^[${this.min}-${this.max}]+$`);
+    this.rangeRegExp = new RegExp(`^[${this.min}-${this.max}]+$`);
   }
 
-  private initNewFormValidators() : void {
+  private initNewFormValidators(): void {
     this.guessControl.setValidators([
       this.regexValidator(this.maxLengthRegExp, {'maxLength': 'true'}),
       this.regexValidator(this.minLengthRegExp, {'minLength': 'true'}),
@@ -77,16 +78,16 @@ export class InputFormComponent implements OnInit, OnChanges {
     this.formGroup.reset();
   }
 
-  transform(formData: string) : Array<number> {
+  transform(formData: string): Array<number> {
     let guessNumbers: number[] = [];
-    for(let char of formData){
+    for (let char of formData) {
       guessNumbers.push(Number(char));
     }
     return guessNumbers;
   }
 
   regexValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} => {
+    return (control: AbstractControl): { [key: string]: any } => {
       if (!control.value) {
         // @ts-ignore
         return null;
@@ -95,8 +96,5 @@ export class InputFormComponent implements OnInit, OnChanges {
       // @ts-ignore
       return valid ? null : error;
     };
-  }
-
-  ngOnInit(): void {
   }
 }

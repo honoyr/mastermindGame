@@ -78,8 +78,8 @@ export class GameViewComponent implements OnInit, OnDestroy {
       })
   }
 
-  createMockAttempt() : void {
-    if(!this.gameModel.mockAttempt ||
+  createMockAttempt(): void {
+    if (!this.gameModel.mockAttempt ||
       this.gameModel.mockAttempt.guessNumbers.length !== this.gameModel.gameSettings.requestedNumbers) {
       this.gameModel.mockAttempt = GameService.getMockAttempt(this.gameModel);
     }

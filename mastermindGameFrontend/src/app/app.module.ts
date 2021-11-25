@@ -6,7 +6,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppComponent } from './components/app/app.component';
 import { GameViewComponent } from './components/game-view/game-view.component';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { InputFormComponent } from './components/input-form/input-form.component';

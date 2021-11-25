@@ -6,15 +6,8 @@ import {Attempt, Feedback} from "../../service/game.service";
   templateUrl: './attempt-card.component.html',
   styleUrls: ['./attempt-card.component.scss']
 })
-export class AttemptCardComponent implements OnInit {
+export class AttemptCardComponent {
 
   @Input()
   attempt$!: Attempt;
-
-  constructor() { }
-
-  ngOnInit(): void {
-
-  }
-
 }

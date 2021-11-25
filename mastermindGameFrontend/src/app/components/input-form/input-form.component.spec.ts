@@ -22,4 +22,38 @@ describe('InputFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should crete form with guess control', () => {
+    expect(component.formGroup.contains('guess')).toBeTruthy()
+  });
+
+  it('should mark guess control as invalid if empty value', () => {
+    const control = component.guessControl.get('guess');
+    control?.setValue('')
+    expect(control?.valid).toBeFalsy();
+  });
+
+  it('should mark guess control as invalid if value contain any characters', () => {
+    const control = component.guessControl.get('guess');
+    control?.setValue('!@#$%^&*()привет')
+    expect(control?.valid).toBeFalsy();
+  });
+
+  it('should mark guess control as invalid if value contain any characters', () => {
+    const control = component.guessControl.get('guess');
+    control?.setValue('4466')
+    expect(control?.valid).toBeFalsy();
+  });
+
+  it('should mark guess control as invalid if the length of the input more than 4 digits.', () => {
+    const control = component.guessControl.get('guess');
+    control?.setValue('5555')
+    expect(control?.valid).toBeFalsy();
+  });
+
+  // it('should submit array of numbers', () => {
+  //   let result = null;
+  //   component.attemptEventEmitter.
+  // });
+
 });

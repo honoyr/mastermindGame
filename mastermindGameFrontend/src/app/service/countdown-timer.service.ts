@@ -1,5 +1,5 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, interval } from 'rxjs';
+import {Injectable} from '@angular/core';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class CountdownTimerService {
   private milliSecondsInASecond = 1000;
   private hoursInADay = 24;
   private minutesInAnHour = 60;
-  private secondsInAMinute  = 60;
+  private secondsInAMinute = 60;
 
   public timeDifference!: number;
   public milliseconds!: number;
@@ -21,16 +21,15 @@ export class CountdownTimerService {
 
 
   getTimeDifference(milliSeconds: number) {
-    this.timeDifference = (this.currentDate.getTime() + milliSeconds) - new  Date().getTime();
+    this.timeDifference = (this.currentDate.getTime() + milliSeconds) - new Date().getTime();
     this.allocateTimeUnits(this.timeDifference);
   }
 
-  private allocateTimeUnits (timeDifference: number) {
+  private allocateTimeUnits(timeDifference: number) {
     this.milliseconds = Math.floor(timeDifference % (this.milliSecondsInASecond));
     this.secondsToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond) % this.secondsInAMinute);
     this.minutesToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour) % this.secondsInAMinute);
     this.hoursToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.secondsInAMinute) % this.hoursInADay);
     this.daysToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.secondsInAMinute * this.hoursInADay));
   }
-
 }

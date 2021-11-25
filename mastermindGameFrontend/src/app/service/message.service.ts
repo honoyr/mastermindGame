@@ -14,7 +14,7 @@ export interface DialogData {
   providedIn: 'root'
 })
 export class MessageService {
-  ordinals: string[] = ['th','st','nd','rd'];
+  ordinals: string[] = ['th', 'st', 'nd', 'rd'];
 
   /**
    * Append ordinal to number (e.g. "1st" position)
@@ -26,14 +26,14 @@ export class MessageService {
    * Example:
    *   {{ 23 |  ordinal:false}}
    *   formats to: 'rd'
-  */
-  private transformOrdinal(n: number, keepNumber: boolean = true) {
+   */
+  private transformOrdinal(n: number) {
     let v = n % 100;
-    return (this.ordinals[(v-20)%10]||this.ordinals[v]||this.ordinals[0]);
+    return (this.ordinals[(v - 20) % 10] || this.ordinals[v] || this.ordinals[0]);
   }
 
   private createTitle(messageId: MessageEnumId) {
-    switch (messageId){
+    switch (messageId) {
       case MessageEnumId.winner:
         return MatDialogData.titleWinner;
       case MessageEnumId.changeSettings:
@@ -44,7 +44,7 @@ export class MessageService {
   }
 
   private createContent(messageId: MessageEnumId, gameModel: GameModel) {
-    switch (messageId){
+    switch (messageId) {
       case MessageEnumId.winner:
         return gameModel.content;
       case MessageEnumId.changeSettings:
@@ -56,7 +56,7 @@ export class MessageService {
 
   private createOther(messageId: MessageEnumId, gameModel: GameModel) {
     const ordinal = this.transformOrdinal(gameModel.attemptCounter)
-    switch (messageId){
+    switch (messageId) {
       case MessageEnumId.winner:
         return `Game was finished on ${gameModel.attemptCounter}${ordinal} attempt.`;
       default:
@@ -64,10 +64,10 @@ export class MessageService {
     }
   }
 
-  private createButton (messageId: MessageEnumId) {
-    switch (messageId){
+  private createButton(messageId: MessageEnumId) {
+    switch (messageId) {
       case MessageEnumId.winner:
-        return MatDialogData.buttonTryAgain;;
+        return MatDialogData.buttonTryAgain;
       case MessageEnumId.changeSettings:
         return MatDialogData.buttonApply;
       default:
@@ -75,14 +75,12 @@ export class MessageService {
     }
   }
 
-  public getGameMessage(messageId: MessageEnumId, gameModel: GameModel) : DialogData {
-    console.log(gameModel);
-    const message: DialogData = {
+  public getGameMessage(messageId: MessageEnumId, gameModel: GameModel): DialogData {
+    return {
       title: this.createTitle(messageId),
       content: this.createContent(messageId, gameModel),
       other: this.createOther(messageId, gameModel),
       button: this.createButton(messageId)
-    }
-    return message;
+    };
   }
 }

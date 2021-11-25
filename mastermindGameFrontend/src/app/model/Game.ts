@@ -4,11 +4,10 @@ import {MatDialogData} from "./MatDialogData";
 
 export class GameModel {
   private _randomNumbers:    Array<number> = [];
-  private _guessNumbers:     Array<number> = [];
   private _attempts:         Array<Attempt> = [];
   private _mockAttempt!:      Attempt;
 
-  private _attemptCounter:  number = 0;
+  private _attemptCounter:   number = 0;
   private _gameSettings!:    GameSettingsDto;
   private _gameStatus:       boolean = true;
   private _content!:         MatDialogData;
@@ -19,14 +18,6 @@ export class GameModel {
 
   set randomNumbers(value: Array<number>) {
     this._randomNumbers = value;
-  }
-
-  get guessNumbers(): Array<number> {
-    return this._guessNumbers;
-  }
-
-  set guessNumbers(value: Array<number>) {
-    this._guessNumbers = value;
   }
 
   get attempts(): Array<Attempt> {

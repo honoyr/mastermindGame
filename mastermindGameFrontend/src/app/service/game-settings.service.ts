@@ -7,7 +7,7 @@ import {GameSettingsDto, Settings} from "../model/GameSettings";
 })
 export class GameSettingsService {
 
-  private _level!: Levels;
+  private level!: Levels;
   private requestedNumbers!: number;
   private smallestValueReturned!: number;
   private largestValueReturned!: number;
@@ -17,10 +17,6 @@ export class GameSettingsService {
   constructor() {
   }
 
-  get level(): Levels {
-    return this._level;
-  }
-
   public changeSettings(level:Levels) {
     this.setSettings(level);
     return this.getSettings()
@@ -28,7 +24,7 @@ export class GameSettingsService {
 
   private setSettings(level: Levels){
     this.smallestValueReturned = Settings.MIN;
-    this._level = level;
+    this.level = level;
 
     switch ( level ) {
       case Levels.easy:
@@ -56,7 +52,7 @@ export class GameSettingsService {
 
   private getSettings() :GameSettingsDto {
     const settings: GameSettingsDto = {
-      level: this._level,
+      level: this.level,
       requestedNumbers: this.requestedNumbers,
       smallestValueReturned: this.smallestValueReturned,
       largestValueReturned: this.largestValueReturned,

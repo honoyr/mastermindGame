@@ -19,7 +19,4 @@ export class AttemptsListComponent {
 
   @Input()
   loading!: boolean;
-
-  constructor() { }
-
 }
