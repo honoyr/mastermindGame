@@ -5,7 +5,22 @@ Mastermind Game
 ============
 The idea of the game is for one player (the code-breaker) to guess the secret code chosen by the computer (the code-maker).
 
-![ezgif com-gif-maker](gif)
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/33399226/143380204-97c0d633-d5f0-431c-92c7-408e35489850.gif)
+
+### Game rules:
+
+- At the start of the game the computer will randomly select a pattern of different numbers. 
+- A player will have 5-15 attempts to guess the number combinations
+- At the end of each guess, computer will provide one of the following response
+  as feedback:
+  - The player had guess a correct number - Orange color
+  - The player had guessed a correct number and its correct location - Green color
+  - The player’s guess was incorrect - Red color 
+
+#### For a better perception
+- Each guess number in the square has its own color. 
+- A group of squares displays feedbacks on the user input.
+
 ### Features:
 - Difficulty level - Player able to choose difficulty level: Easy, Medium, Hard.
 - Colored attempt - for better visual perception to guess the numbers.
