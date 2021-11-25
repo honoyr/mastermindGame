@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FeedbackCardComponent } from './feedback-card.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {FeedbackCardComponent} from './feedback-card.component';
 
 describe('FeedbackCardComponent', () => {
   let component: FeedbackCardComponent;
@@ -8,9 +7,9 @@ describe('FeedbackCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FeedbackCardComponent ]
+      declarations: [FeedbackCardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

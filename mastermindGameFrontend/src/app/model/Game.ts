@@ -3,25 +3,82 @@ import {Attempt} from "../service/game.service";
 import {MatDialogData} from "./MatDialogData";
 
 export class GameModel {
+  private _randomNumbers:    Array<number> = [];
+  private _attempts:         Array<Attempt> = [];
+  private _mockAttempt!:      Attempt;
 
-  private randomNumbers:     Array<number> = [];
-  private guessNumbers:      Array<number> = [];
-  private attempts:          Array<Attempt> = [];
+  private _attemptCounter:   number = 0;
+  private _gameSettings!:    GameSettingsDto;
+  private _gameStatus:       boolean = true;
+  private _content!:         MatDialogData;
 
-  private attemptsCounter:  number = 0;
-  private gameSettings!:     GameSettingsDto;
-  private gameStatus:        boolean = true;
-  private content!:          MatDialogData;
-
-  resetGameModel() {
-    this.randomNumbers = [];
-    this.gameStatus = true;
-    this.attempts = [];
-    this.attemptsCounter = 0;
+  get randomNumbers(): Array<number> {
+    return this._randomNumbers;
   }
 
+  set randomNumbers(value: Array<number>) {
+    this._randomNumbers = value;
+  }
 
+  get attempts(): Array<Attempt> {
+    return this._attempts;
+  }
 
+  set attempts(value: Array<Attempt>) {
+    this._attempts = value;
+  }
+
+  get attemptCounter(): number {
+    return this._attemptCounter;
+  }
+
+  set attemptCounter(value: number) {
+    this._attemptCounter = value;
+  }
+
+  get gameSettings(): GameSettingsDto {
+    return this._gameSettings;
+  }
+
+  set gameSettings(value: GameSettingsDto) {
+    this._gameSettings = value;
+  }
+
+  get gameStatus(): boolean {
+    return this._gameStatus;
+  }
+
+  set gameStatus(value: boolean) {
+    this._gameStatus = value;
+  }
+
+  get content(): MatDialogData {
+    return this._content;
+  }
+
+  set content(value: MatDialogData) {
+    this._content = value;
+  }
+
+  get mockAttempt(): Attempt {
+    return this._mockAttempt;
+  }
+
+  set mockAttempt(value: Attempt) {
+    this._mockAttempt = value;
+  }
+
+  getGameState() : GameStateDto {
+    const gameState: GameStateDto = {
+      gameSettings: this._gameSettings,
+      randomNumbers: this._randomNumbers,
+      gameStatus: this._gameStatus,
+      attempts: this._attempts,
+      numberOfAttempts: this._attemptCounter,
+      content: this._content
+    }
+    return gameState
+  }
 }
 
 export interface GameStateDto {

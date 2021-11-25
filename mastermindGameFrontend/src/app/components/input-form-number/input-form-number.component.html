@@ -17,17 +17,17 @@
       <ul *ngIf="guessControl.errors">
         <li *ngIf="guessControl.hasError('maxLength')">
           <mat-error>
-            Longitude must have <strong>a max of {{num}} decimal numbers.</strong>
+            Min length have to be <strong>a {{num}} decimal numbers.</strong>
           </mat-error>
         </li>
         <li *ngIf="guessControl.hasError('minLength')">
           <mat-error>
-            Longitude must have <strong>a min of {{num}} decimal numbers.</strong>
+            Max length have to be <strong>a min of {{num}} decimal numbers.</strong>
           </mat-error>
         </li>
         <li *ngIf="guessControl.hasError('range')">
           <mat-error>
-            The range have to be in <strong>{{min}} - {{max}}.</strong>
+            Type positive numbers between <strong>{{min}} - {{max}}.</strong>
           </mat-error>
         </li>
         <li *ngIf="guessControl.hasError('numbersOnly')">
@@ -43,4 +43,3 @@
     </button>
   </form>
 </div>
-

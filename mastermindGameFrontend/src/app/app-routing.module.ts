@@ -6,13 +6,9 @@ import {InputFormNumberComponent} from "./components/input-form-number/input-for
 
 const routes: Routes = [
   {
-    path: 'game',
+    path: '',
     component: GameViewComponent,
   },
-  {
-    path: 'form',
-    component: InputFormNumberComponent,
-  }
 ];
 
 @NgModule({

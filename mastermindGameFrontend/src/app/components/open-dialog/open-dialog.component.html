@@ -1,16 +1,7 @@
-<!--<h1 mat-dialog-title>Warning</h1>-->
-<!--<div mat-dialog-content>-->
-<!--  By applying the settings you will lose your progress</div>-->
-<!--<div mat-dialog-actions class="cardButton" >-->
-<!--  <button mat-button mat-dialog-close>Close</button>-->
-<!--  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Apply</button>-->
-<!--</div>-->
-
-
 <h1 mat-dialog-title>{{data.title}}</h1>
 <div mat-dialog-content>{{data.content}}</div>
 <div mat-dialog-content>{{data.other}}</div>
-<div mat-dialog-actions class="cardButton" >
+<div mat-dialog-actions class="cardButton">
   <button mat-button mat-dialog-close>Close</button>
   <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{data.button}}</button>
 </div>

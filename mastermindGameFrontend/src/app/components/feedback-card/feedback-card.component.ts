@@ -6,13 +6,8 @@ import {Feedback} from "../../service/game.service";
   templateUrl: './feedback-card.component.html',
   styleUrls: ['./feedback-card.component.scss']
 })
-export class FeedbackCardComponent implements OnInit {
+export class FeedbackCardComponent {
 
   @Input()
-  feedbacks$!:Feedback[]
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  feedbacks$!: Feedback[]
 }

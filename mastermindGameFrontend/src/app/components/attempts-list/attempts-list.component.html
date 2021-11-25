@@ -1,6 +1,6 @@
 <div class="container">
-  <h2 i18n="Attempt header | attempts" >Attempts</h2>
-  <div class="center" *ngIf="attempts$.length; else mockData" >
+  <h2 i18n="Attempt header | attempts">Attempts: {{attemptCounter}}</h2>
+  <div class="center" *ngIf="attempts$.length; else mockData">
     <div class="card" *ngFor="let attempt of attempts$">
       <app-attempt-card class="guessNumber" [attempt$]="attempt"></app-attempt-card>
     </div>

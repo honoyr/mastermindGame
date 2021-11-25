@@ -6,29 +6,29 @@
       <ul *ngIf="guessControl.errors">
         <li *ngIf="guessControl.hasError('maxLength')">
           <mat-error>
-            Longitude must have <strong>a max of {{num}} decimal numbers.</strong>
+            Input should not exceed <strong>{{num}} numbers</strong>
           </mat-error>
         </li>
         <li *ngIf="guessControl.hasError('minLength')">
           <mat-error>
-            Longitude must have <strong>a min of {{num}} decimal numbers.</strong>
+            Input should not be less than <strong>{{num}} numbers</strong>
           </mat-error>
         </li>
         <li *ngIf="guessControl.hasError('range')">
           <mat-error>
-            The range have to be in <strong>{{min}} - {{max}}.</strong>
+            Numbers should be in the range from <strong>{{min}} to {{max}}</strong>
           </mat-error>
         </li>
         <li *ngIf="guessControl.hasError('numbersOnly')">
           <mat-error>
-            <strong>Numbers only </strong> allowed.
+            <strong>Only numbers </strong>are allowed
           </mat-error>
         </li>
       </ul>
     </div>
     <button
       i18n="Check button | Check attempt"
-      class="btn" type="submit" [disabled]="!formGroup.valid || !guessControl.value" >Check
+      class="btn" type="submit" [disabled]="!formGroup.valid || !guessControl.value">Check
     </button>
   </form>
 </div>

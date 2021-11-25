@@ -6,7 +6,7 @@ import {Attempt, Feedback} from "../../service/game.service";
   templateUrl: './attempts-list.component.html',
   styleUrls: ['./attempts-list.component.scss']
 })
-export class AttemptsListComponent implements OnInit {
+export class AttemptsListComponent {
 
   @Input()
   attempts$!: Array<Attempt>;
@@ -15,12 +15,8 @@ export class AttemptsListComponent implements OnInit {
   mockAttempt$!: Attempt;
 
   @Input()
+  attemptCounter!: number;
+
+  @Input()
   loading!: boolean;
-
-  constructor() { }
-
-
-  ngOnInit(): void {
-  }
-
 }

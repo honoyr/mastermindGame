@@ -1,6 +1,4 @@
 import { Component, } from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {StopWatchService} from "./service/stop-watch.service";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +7,4 @@ import {StopWatchService} from "./service/stop-watch.service";
 })
 export class AppComponent {
 
-  constructor() {
-  }
-  title = 'mastermindGameFrontend';
 }

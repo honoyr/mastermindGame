@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StopWatchService } from './stop-watch.service';
+import { GameSettingsService } from './game-settings.service';
 
-describe('StopWatchService', () => {
-  let service: StopWatchService;
+describe('GameSettingsService', () => {
+  let service: GameSettingsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(StopWatchService);
+    service = TestBed.inject(GameSettingsService);
   });
 
   it('should be created', () => {
