@@ -1,0 +1,35 @@
+.attemptList {
+  display: grid;
+  justify-content: space-around;
+  grid-template-columns: 6em 6em 6em 6em 6em;
+  grid-gap: 2px;
+  padding: 1em;
+}
+
+h1,h3{
+  text-align: center;
+}
+
+.text {
+  text-align: center;
+}
+
+.feedback {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 3em 3em;
+  grid-gap: 2px;
+}
+
+.feedback {
+  display: grid;
+  justify-content: space-around;
+  grid-template-columns: 3em 3em 3em;
+  grid-template-rows:  3em;
+  padding: 1em;
+}
+
+ul.circle {
+  list-style-type: circle;
+  padding: 1em;
+}

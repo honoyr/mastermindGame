@@ -18,6 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from "../material.module";
 import { InputFormNumberComponent } from './components/input-form-number/input-form-number.component';
 import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from "@angular/material/core";
+import { ProfileNavTabComponent } from './components/profile/profile-nav-tab/profile-nav-tab.component';
+import { RulesComponent } from './components/profile/rules/rules.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from "@angular/material
     FeedbackCardComponent,
     OpenDialogComponent,
     InputFormNumberComponent,
+    ProfileNavTabComponent,
+    RulesComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

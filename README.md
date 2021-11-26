@@ -68,7 +68,7 @@ Clone the [GitHub repository](https://github.com/honoyr/mastermindGame)  from th
 ```
 git clone https://github.com/honoyr/mastermindGame
 ```
-Alternatively, if you do not have git installed, you can  [download the repository as a ZIP file](https://github.com/honoyr/leader_talks/archive/main.zip).
+Alternatively, if you do not have git installed, you can  [download the repository as a ZIP file](https://github.com/honoyr/mastermindGame/archive/main.zip).
 
 ## 3. Deployment (Frontend)
 

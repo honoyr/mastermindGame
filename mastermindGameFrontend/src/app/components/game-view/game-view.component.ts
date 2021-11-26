@@ -39,7 +39,6 @@ export class GameViewComponent implements OnInit, OnDestroy {
         this.gameModel.randomNumbers = randomNumbers;
         this.createMockAttempt();
         this.loading = false;
-        console.log(this.gameModel.randomNumbers); // DEL
       }, error => this.error = error)
   }
 
@@ -91,7 +90,6 @@ export class GameViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     GameService.resetGame(this.gameModel);
-    this.dialogRefSubscription.unsubscribe();
     this.randomNumbersSubscription.unsubscribe();
   }
 }

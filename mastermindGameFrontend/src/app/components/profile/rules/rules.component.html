@@ -1,0 +1,39 @@
+<div class="card">
+  <h1>Mastermind</h1>
+  <p>The idea of the game is for one player (the code-breaker) to guess the secret code chosen by the computer (the
+    code-maker).</p>
+</div>
+<div class="card">
+  <h3>Rules</h3>
+  <p>1. At the start of the game the computer will randomly select a pattern of different numbers. You need to <strong>guess
+    the combination of numbers</strong></p>
+  <p>2. Type your guess numbers into the input form and press <strong>check</strong></p>
+  <app-input-form></app-input-form>
+  <h3>"Attempt 10"</h3>
+  <p> 3.You will have limited attempts to guess the number combinations(depends on your game settings).</p>
+  <app-attempts-list
+    [attempts$]="[mockAttempt]"
+    [mockAttempt$]="mockAttempt"
+    [loading]="false"
+    [attemptCounter]="10"
+  ></app-attempts-list>
+  <p>4. You able to see the history of guesses and their feedback.</p>
+  <app-attempt-card
+    class="attemptList"
+    [attempt$]="attempt"
+  >
+  </app-attempt-card>
+
+  <p>5. Each guess number has its own color.</p>
+  <app-feedback-card
+    class="feedback"
+    [feedbacks$]="mock.feedbacks">
+  </app-feedback-card>
+  <p>6. Computer will provide one of the following response as feedback:</p>
+  <ul class="circle">
+    <li>The player had guessed a correct number and its correct location - green square</li>
+    <li>The player had guess a correct number - orange square</li>
+    <li>The player’s guess was incorrect - red square</li>
+  </ul>
+</div>
+
