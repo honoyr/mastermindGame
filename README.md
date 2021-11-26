@@ -1,5 +1,5 @@
 
-##Link to the game in prod
+## Link to the game in prod
 https://mastermindgame.web.app/
 
 ## 1. Overview
