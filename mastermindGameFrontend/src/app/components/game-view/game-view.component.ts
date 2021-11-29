@@ -26,11 +26,13 @@ export class GameViewComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog,
               private messageService: MessageService,
-              private gameSettings: GameSettingsService,
               private integerGeneratorService: IntegerGeneratorService) {
-    this.gameModel.gameSettings = this.gameSettings.changeSettings(Levels.medium);
+    this.gameModel.gameSettings = GameSettingsService.changeSettings(Levels.medium);
   }
 
+  /**
+   * Set up gameModel according to gameSettingsDto
+   */
   newGame(): void {
     this.loading = true;
     GameService.resetGame(this.gameModel);
@@ -42,6 +44,10 @@ export class GameViewComponent implements OnInit, OnDestroy {
       }, error => this.error = error)
   }
 
+  /**
+   * Create new gameSettingsDto for gameModel depending on the level chosen by user
+   * @param level
+   */
   changeSettings(level: Levels): void {
     const data: DialogData = this.messageService.getGameMessage(MessageEnumId.changeSettings, this.gameModel);
 
@@ -49,12 +55,17 @@ export class GameViewComponent implements OnInit, OnDestroy {
     this.dialogRefSubscription = dialogRef.afterClosed()
       .subscribe((status: boolean) => {
         if (status) {
-          this.gameModel.gameSettings = this.gameSettings.changeSettings(level);
+          this.gameModel.gameSettings = GameSettingsService.changeSettings(level);
           this.newGame();
         }
       })
   }
 
+  /**
+   * Create new attempt and check if the game has ended or if the game is still running.
+   * User will be provided with a generated message according to gameModel state.
+   * @param guessNumberEventEmitter
+   */
   createAttemptAndCheckWinner(guessNumberEventEmitter: any): void {
     if (this.gameModel.gameStatus) {
       const attempt: Attempt = GameService.createAttempt(guessNumberEventEmitter, this.gameModel.randomNumbers)
@@ -66,6 +77,9 @@ export class GameViewComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Show a message in a modal window according to gameModel state
+   */
   openDialogWinnerMessage(): void {
     const data: DialogData = this.messageService.getGameMessage(MessageEnumId.winner, this.gameModel);
     const dialogRef = this.dialog.open(OpenDialogComponent, {data});
@@ -77,6 +91,9 @@ export class GameViewComponent implements OnInit, OnDestroy {
       })
   }
 
+  /**
+   * Create mockDataAttempt depending on gameSettingsDto
+   */
   createMockAttempt(): void {
     if (!this.gameModel.mockAttempt ||
       this.gameModel.mockAttempt.guessNumbers.length !== this.gameModel.gameSettings.requestedNumbers) {

@@ -75,6 +75,12 @@ export class MessageService {
     }
   }
 
+  /**
+   * Generate message depending on the gameModel state and messageId
+   * @param messageId
+   * @param gameModel
+   * @return DialogData type message.
+   */
   public getGameMessage(messageId: MessageEnumId, gameModel: GameModel): DialogData {
     return {
       title: this.createTitle(messageId),

@@ -47,13 +47,24 @@ describe('InputFormComponent', () => {
 
   it('should mark guess control as invalid if the length of the input more than 4 digits.', () => {
     const control = component.guessControl.get('guess');
-    control?.setValue('5555')
+    control?.setValue('55555')
     expect(control?.valid).toBeFalsy();
   });
 
-  // it('should submit array of numbers', () => {
-  //   let result = null;
-  //   component.attemptEventEmitter.
-  // });
+  it('should mark guess control as invalid if the length of the input less than 4 digits.', () => {
+    const control = component.guessControl.get('guess');
+    control?.setValue('555')
+    expect(control?.valid).toBeFalsy();
+  });
 
+  it('should mark guess control as invalid if the length of the input more than 4 digits.', () => {
+    const control = component.guessControl.get('guess');
+    control?.setValue('5555')
+    expect(control?.valid).toBeFalsy();
+  });
+  it('should mark guess control as invalid if the numbers out of range 0-7', () => {
+    const control = component.guessControl.get('guess');
+    control?.setValue('8888')
+    expect(control?.valid).toBeFalsy();
+  });
 });

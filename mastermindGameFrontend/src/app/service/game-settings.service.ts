@@ -7,22 +7,32 @@ import {GameSettingsDto, Settings} from "../model/GameSettings";
 })
 export class GameSettingsService {
 
-  private level!: Levels;
-  private requestedNumbers!: number;
-  private smallestValueReturned!: number;
-  private largestValueReturned!: number;
-  private numberOfAttempts!: number;
-  private maxAttempts!:number;
+  private static level: Levels;
+  private static requestedNumbers: number;
+  private static smallestValueReturned: number;
+  private static largestValueReturned: number;
+  private static numberOfAttempts: number;
+  private static maxAttempts:number;
 
   constructor() {
   }
 
-  public changeSettings(level:Levels) {
+  /**
+   * Get gameSettingsDto depending on the level.
+   * @param level
+   * @Return gameSettingsDto (data transfer object)
+   */
+  public static changeSettings(level:Levels) {
     this.setSettings(level);
     return this.getSettings()
   }
 
-  private setSettings(level: Levels){
+  /**
+   * Set up gameSettingsDto properties variants
+   * @param level
+   * @private
+   */
+  private static setSettings(level: Levels){
     this.smallestValueReturned = Settings.MIN;
     this.level = level;
 
@@ -50,7 +60,12 @@ export class GameSettingsService {
     }
   }
 
-  private getSettings() :GameSettingsDto {
+  /**
+   * Transform gameSettings to gameSettings data transfer object
+   * @private
+   * @Return gameSettingsDto
+   */
+  private static getSettings() :GameSettingsDto {
     const settings: GameSettingsDto = {
       level: this.level,
       requestedNumbers: this.requestedNumbers,
