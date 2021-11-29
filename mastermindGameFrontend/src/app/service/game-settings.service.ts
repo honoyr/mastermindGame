@@ -17,11 +17,21 @@ export class GameSettingsService {
   constructor() {
   }
 
+  /**
+   * Get gameSettingsDto depending on the level.
+   * @param level
+   * @Return gameSettingsDto (data transfer object)
+   */
   public static changeSettings(level:Levels) {
     this.setSettings(level);
     return this.getSettings()
   }
 
+  /**
+   * Set up gameSettingsDto properties variants
+   * @param level
+   * @private
+   */
   private static setSettings(level: Levels){
     this.smallestValueReturned = Settings.MIN;
     this.level = level;
@@ -50,6 +60,11 @@ export class GameSettingsService {
     }
   }
 
+  /**
+   * Transform gameSettings to gameSettings data transfer object
+   * @private
+   * @Return gameSettingsDto
+   */
   private static getSettings() :GameSettingsDto {
     const settings: GameSettingsDto = {
       level: this.level,
