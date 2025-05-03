@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "site": "mastermindgame",
+    "public" : "mastermindGameFrontend/dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "us-central1"
+    }
+  }
+}
