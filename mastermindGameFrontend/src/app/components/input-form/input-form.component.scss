@@ -1,34 +1,98 @@
+/* mastermindGameFrontend/src/app/components/input-form/input-form.component.scss */
 
-input {
-  &.ng-invalid.ng-touched {
-    border: 4px solid red;
+// Assumes styles.scss is imported globally or necessary mixins/variables are available.
+// @use '../../styles/variables' as vars; // Example if using explicit imports
+
+:host {
+  display: block; // Ensures the component takes up block space
+  // Add container context for potential future responsiveness within the component itself
+  // @include container-context(input-form); // Uncomment if container mixins are set up
+
+  // Input field specific styles
+  input {
+    // Basic input styling should come from global styles (styles.scss)
+    // We only apply state-specific overrides here.
+    border: 2px solid var(--color-border, #ccc); // Default border, use custom property
+    padding: var(--space-s, 8px) var(--space-m, 12px); // Use spacing tokens
+    border-radius: var(--radius-medium, 8px); // Use radius tokens
+    width: 100%; // Make input take full width of its container by default
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; // Smooth transitions
+
+    // Styling for invalid state after interaction
+    // Use :not(.ng-valid) or specific error conditions if needed
+    &.ng-invalid.ng-touched {
+      // Avoid changing border-width which causes layout shift. Use color and outline/shadow.
+      border-color: var(--color-error, red);
+      // Optionally add an inner shadow or outline for more emphasis without affecting layout
+      // box-shadow: inset 0 0 0 1px var(--color-error, red); 
+    }
+
+    // Styling for valid state after interaction (Optional, often default border is sufficient)
+    &.ng-valid.ng-touched {
+      border-color: var(--color-success, green);
+    }
+
+    // Focus Styling: Rely on :focus-visible for accessibility
+    // The base :focus-visible style comes from styles.scss
+    // We only adjust it here based on validation state if necessary.
+    &:focus-visible {
+      outline: 2px solid var(--color-focus, blue); // Use variable for focus color
+      outline-offset: 2px;
+      border-color: var(--color-focus, blue); // Ensure border matches focus outline color
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-focus, blue) 20%, transparent); // Optional focus glow
+
+      // Keep the error indication during focus if invalid
+       &.ng-invalid.ng-touched {
+         outline-color: var(--color-error, red);
+         border-color: var(--color-error, red);
+         box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-error, red) 20%, transparent);
+       }
+
+       // Keep the success indication during focus if valid (Optional)
+       &.ng-valid.ng-touched {
+         outline-color: var(--color-success, green);
+         border-color: var(--color-success, green);
+         box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-success, green) 20%, transparent);
+       }
+    }
   }
 
-  &.ng-valid.ng-touched {
-    border: 4px solid green;
+  // Styles for elements potentially within this component's template
+  // Structure them according to your component's HTML
+  .card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; // Vertically align items in the card (like input and button)
+    padding: var(--space-m, 16px); // Use spacing tokens
+    background-color: var(--color-surface, white); // Use surface color
+    border-radius: var(--radius-large, 16px); // Use radius tokens
+    box-shadow: var(--shadow-1); // Use elevation tokens
+    gap: var(--space-m, 16px); // Add gap between flex items (input/button)
+    flex-wrap: wrap; // Allow button to wrap below input on very small screens
   }
-}
 
-input:focus-visible {
-
-  &.ng-untouched {
-    outline-style: auto;
-    outline-color: -webkit-focus-ring-color;
-    outline-width: 1px;
+  // Assuming 'btn' was meant to be a class '.btn' or a standard 'button' element
+  .btn, button {
+    // Apply minimum tap target mixin if available and applicable
+    // @include min-tap-target(auto, 48px); // Width can be auto, height enforced
+    // OR define minimum height directly:
+    min-height: 48px; // Ensure minimum height for tap target (WCAG/Material recommend 44-48px)
+    // Removed fixed min-width. Width now depends on content + padding.
+    padding: var(--space-s, 8px) var(--space-m, 16px); // Adjusted horizontal padding
+    // Base button styles should come from styles.scss, add specific overrides here if needed
+    // Example: Make button take full width on small screens if needed
+    // @media (max-width: 599px) { width: 100%; }
   }
 
-  &.ng-touched {
-    outline-style: none;
-    outline-width: 0px;
-  }
-}
+  // Example container query adjustments
+  // @include container(input-form, (max-inline-size < 25rem)) {
+  //   .card {
+  //      flex-direction: column; // Stack input and button
+  //      align-items: stretch; // Make items take full width
+  //   }
+  //   .btn, button {
+  //     width: 100%; // Make button full width inside stacked card
+  //   }
+  // }
 
-.card {
-  display: flex;
-  justify-content: space-between;
-}
-
-btn {
-  width: 80px;
-  height: 80px;
-}
+} // End :host

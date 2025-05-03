@@ -4,13 +4,47 @@
   <meta charset="utf-8">
   <title>MastermindGameFrontend</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 
+    Set viewport for mobile-first responsiveness.
+    `width=device-width`: Sets the width of the viewport to the device width.
+    `initial-scale=1`: Sets the initial zoom level when the page is first loaded.
+    `viewport-fit=cover`: Ensures the content fills the entire screen area, including notches or safe areas on mobile devices.
+    **Important**: Never use `maximum-scale=1` or `user-scalable=no` as it breaks accessibility (pinch-zoom).
+    See: https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+
+  <!-- 
+    Performance Hints: Preconnect to critical origins.
+    Add <link rel="preconnect"> hints for domains hosting critical resources 
+    like fonts, APIs, or CDNs serving large assets (images, videos).
+    Example: <link rel="preconnect" href="https://your-api-domain.com">
+    See: https://web.dev/articles/preconnect-and-dns-prefetch
+  -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- 
+    TODO: Add <link rel="preload"> or Priority Hints (`fetchpriority="high"`) 
+    for the Largest Contentful Paint (LCP) image/resource if known early.
+    Example: <link rel="preload" href="/path/to/hero-image.webp" as="image" fetchpriority="high">
+    See: https://web.dev/articles/priority-hints
+  -->
+
 </head>
 <body class="mat-typography">
   <app-root></app-root>
+  <!-- 
+    Reminder for Image/Video Sizing:
+    Always provide explicit `width` and `height` attributes for `<img>` and `<video>` tags 
+    to prevent Cumulative Layout Shift (CLS). Use `aspect-ratio` in CSS for responsive sizing.
+    Example: <img src="..." width="1600" height="900" style="aspect-ratio: 16/9; width: 100%; height: auto;" loading="lazy">
+    
+    Use `loading="lazy"` for images below the fold.
+    See: https://web.dev/articles/optimize-cls#images_without_dimensions
+    See: https://web.dev/articles/lazy-loading-images
+  -->
 </body>
 </html>
